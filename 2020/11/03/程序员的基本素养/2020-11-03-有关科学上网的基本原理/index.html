@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/fluid.png">
-  <link rel="icon" href="/blog/img/fluid.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -19,17 +19,17 @@
     <meta name="description" content="最近研究了下有关梯子的原理和构建方法，感到很复杂，很有趣。这篇文章旨在记录我在研究中的一些重要的点(谁叫我记性不好呢)。  一、原理 主要由于一些政治因素吧，GFW出现了，出现的原因不是我们关心的重点，本节主要说说GFW的基本原理。通俗的来讲就是在网络出口处设置了一个审查装置，来定向的封锁某些符合特征的数据包，在我们大众的视角里体现为一些网站上不去了。我们以时间顺序简单说明下原理的演进:  最初">
 <meta property="og:type" content="article">
 <meta property="og:title" content="有关科学上网的基本原理">
-<meta property="og:url" content="https://sakilawaw.github.io/blog/2020/11/03/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%B4%A0%E5%85%BB/2020-11-03-%E6%9C%89%E5%85%B3%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:url" content="https://sakilawaw.github.io/2020/11/03/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%B4%A0%E5%85%BB/2020-11-03-%E6%9C%89%E5%85%B3%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="鲱鱼罐头大吃两碗">
 <meta property="og:description" content="最近研究了下有关梯子的原理和构建方法，感到很复杂，很有趣。这篇文章旨在记录我在研究中的一些重要的点(谁叫我记性不好呢)。  一、原理 主要由于一些政治因素吧，GFW出现了，出现的原因不是我们关心的重点，本节主要说说GFW的基本原理。通俗的来讲就是在网络出口处设置了一个审查装置，来定向的封锁某些符合特征的数据包，在我们大众的视角里体现为一些网站上不去了。我们以时间顺序简单说明下原理的演进:  最初">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://sakilawaw.github.io/blog/images/scientific-internet-access/banner.jpg">
+<meta property="og:image" content="https://sakilawaw.github.io/images/scientific-internet-access/banner.jpg">
 <meta property="article:published_time" content="2020-11-03T03:02:06.000Z">
-<meta property="article:modified_time" content="2023-04-20T06:30:07.542Z">
+<meta property="article:modified_time" content="2023-04-20T06:35:32.954Z">
 <meta property="article:author" content="Raiden">
 <meta property="article:tag" content="科学上网">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://sakilawaw.github.io/blog/images/scientific-internet-access/banner.jpg">
+<meta name="twitter:image" content="https://sakilawaw.github.io/images/scientific-internet-access/banner.jpg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -59,12 +59,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/blog/css/main.css" />
+<link  rel="stylesheet" href="/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
 
 
@@ -73,15 +73,15 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"sakilawaw.github.io","root":"/blog/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/blog/local-search.xml"};
+    var CONFIG = {"hostname":"sakilawaw.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/blog/js/utils.js" ></script>
-  <script  src="/blog/js/color-schema.js" ></script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
   
 
 
@@ -98,7 +98,7 @@
 <div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/blog/">
+    <a class="navbar-brand" href="/">
       <strong>鲱鱼罐头大吃两碗</strong>
     </a>
 
@@ -117,7 +117,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/blog/">
+              <a class="nav-link" href="/">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -129,7 +129,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/blog/archives/">
+              <a class="nav-link" href="/archives/">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -141,7 +141,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/blog/categories/">
+              <a class="nav-link" href="/categories/">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -153,7 +153,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/blog/tags/">
+              <a class="nav-link" href="/tags/">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -183,7 +183,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/blog/images/scientific-internet-access/banner.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('/images/scientific-internet-access/banner.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -274,7 +274,7 @@
 <ol>
 <li>最初的时候</li>
 </ol>
-<p><img src="/blog/images/scientific-internet-access/gfw-theory-1.png" srcset="/blog/img/loading.gif" lazyload alt="gfw原理"></p>
+<p><img src="/images/scientific-internet-access/gfw-theory-1.png" srcset="/img/loading.gif" lazyload alt="gfw原理"></p>
 <p>没有gfw的时候，我们的PC和外网服务器还没有隔阂。和多年前一样，请求经由路由器、骨干网、DNS服务器转发到目标服务器。</p>
 <ol start="2">
 <li>GFW的出现</li>
@@ -296,13 +296,13 @@
 <li>原始的梯子</li>
 </ol>
 <p>就像黑暗和光明是结伴而生，GFW的出现也一定会伴随着破解程序的出现，也就是我们所说的梯子。最早的梯子使用的原理叫做VPN(Virtual Private Network)：</p>
-<p><img src="/blog/images/scientific-internet-access/gfw-theory-2.png" srcset="/blog/img/loading.gif" lazyload alt="VPN原理"></p>
+<p><img src="/images/scientific-internet-access/gfw-theory-2.png" srcset="/img/loading.gif" lazyload alt="VPN原理"></p>
 <p>通过上图代理的方式确实可以完美规避GFW的监测，但是好景不长，GFW发现短期内出现大量通过VPN上外网的行为，所以出了应对措施：封闭VPN请求需要的端口，如果使用，必须报备，并且记录可疑代理的IP地址实行IP封锁。措施一经推出，基本VPN这种方式就行不通了。</p>
 <ol start="4">
 <li>救世主ShadowSocks协议<br></li>
 </ol>
 <p>VPN倒下后，难道就没有方法穿过GFW了吗？不，救世主ShadowSocks(以下简称SS)适时的出现了，SS的出现打破了僵局。</p>
-<p><img src="/blog/images/scientific-internet-access/gfw-theory-3.png" srcset="/blog/img/loading.gif" lazyload alt="SS原理"></p>
+<p><img src="/images/scientific-internet-access/gfw-theory-3.png" srcset="/img/loading.gif" lazyload alt="SS原理"></p>
 <p>既然建立加密通道请求会被作为特征被识别，我们在通过GFW之前提前加密不就好了。SS这种方式让GFW很难辨别(当然现在这种方式肯定还是可能被嗅探到的，毕竟GFW原理谁也说不清)。</p>
 <ol start="5">
 <li>新生代V2Ray和Trojan等</li>
@@ -331,7 +331,7 @@
     
       <span class="category-chain">
         
-  <a href="/blog/categories/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%B4%A0%E5%85%BB/" class="category-chain-item">程序员的基本素养</a>
+  <a href="/categories/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%B4%A0%E5%85%BB/" class="category-chain-item">程序员的基本素养</a>
   
   
 
@@ -346,7 +346,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/blog/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">#科学上网</a>
+        <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">#科学上网</a>
       
     </div>
   
@@ -359,7 +359,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>有关科学上网的基本原理</div>
-      <div>https://sakilawaw.github.io/blog/2020/11/03/程序员的基本素养/2020-11-03-有关科学上网的基本原理/</div>
+      <div>https://sakilawaw.github.io/2020/11/03/程序员的基本素养/2020-11-03-有关科学上网的基本原理/</div>
     </div>
     <div class="license-meta">
       
@@ -407,7 +407,7 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/blog/2020/09/15/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/2020-09-15-%E6%9C%AC%E5%9C%B0%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E8%B0%83%E8%AF%95%E8%BF%9C%E7%A8%8B%E6%8E%A5%E5%8F%A3%E7%9A%84%E8%AE%BE%E8%AE%A1/" title="本地静态文件调试远程接口的设计">
+                      <a href="/2020/09/15/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/2020-09-15-%E6%9C%AC%E5%9C%B0%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E8%B0%83%E8%AF%95%E8%BF%9C%E7%A8%8B%E6%8E%A5%E5%8F%A3%E7%9A%84%E8%AE%BE%E8%AE%A1/" title="本地静态文件调试远程接口的设计">
                         <span class="hidden-mobile">本地静态文件调试远程接口的设计</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
@@ -561,8 +561,8 @@
 
 <script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/blog/js/events.js" ></script>
-<script  src="/blog/js/plugins.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -584,7 +584,7 @@
 
 
   
-    <script  src="/blog/js/img-lazyload.js" ></script>
+    <script  src="/js/img-lazyload.js" ></script>
   
 
 
@@ -683,7 +683,7 @@
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/blog/js/local-search.js" ></script>
+  <script  src="/js/local-search.js" ></script>
 
   <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
@@ -693,7 +693,7 @@
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/blog/js/boot.js" ></script>
+<script  src="/js/boot.js" ></script>
 
 
   
