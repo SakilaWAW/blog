@@ -1,0 +1,724 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/fluid.png">
+  <link rel="icon" href="/blog/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Raiden">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本篇文章是笔者在实践了官方 tutorial 之后总结出的一些要点，目的在于节省以后复习的时间，如果能帮到大家就最好不过了。 一、主要优势 Sever rendering Static site 建立极其简单 CSS-in-JS Zero Setup Complete over Babel and Webpack Smaller build size, faster compilation  二、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Next.js">
+<meta property="og:url" content="https://sakilawaw.github.io/blog/2020/02/10/2020-02-10-Nextjs/index.html">
+<meta property="og:site_name" content="鲱鱼罐头大吃两碗">
+<meta property="og:description" content="本篇文章是笔者在实践了官方 tutorial 之后总结出的一些要点，目的在于节省以后复习的时间，如果能帮到大家就最好不过了。 一、主要优势 Sever rendering Static site 建立极其简单 CSS-in-JS Zero Setup Complete over Babel and Webpack Smaller build size, faster compilation  二、">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://sakilawaw.github.io/blog/images/nextjs-banner.jpg">
+<meta property="article:published_time" content="2020-02-10T15:52:58.000Z">
+<meta property="article:modified_time" content="2023-04-20T06:30:07.542Z">
+<meta property="article:author" content="Raiden">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="nextjs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://sakilawaw.github.io/blog/images/nextjs-banner.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Next.js - 鲱鱼罐头大吃两碗</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sakilawaw.github.io","root":"/blog/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/blog/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blog/js/utils.js" ></script>
+  <script  src="/blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blog/">
+      <strong>鲱鱼罐头大吃两碗</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blog/images/nextjs-banner.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Next.js"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-02-10 15:52" pubdate>
+          2020年2月10日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Next.js</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>本篇文章是笔者在实践了官方 tutorial 之后总结出的一些要点，目的在于节省以后复习的时间，如果能帮到大家就最好不过了。</p>
+<h2 id="一、主要优势"><a href="#一、主要优势" class="headerlink" title="一、主要优势"></a>一、主要优势</h2><ol>
+<li>Sever rendering</li>
+<li>Static site 建立极其简单</li>
+<li>CSS-in-JS</li>
+<li>Zero Setup</li>
+<li>Complete over Babel and Webpack</li>
+<li>Smaller build size, faster compilation</li>
+</ol>
+<h2 id="二、实践出真知"><a href="#二、实践出真知" class="headerlink" title="二、实践出真知"></a>二、实践出真知</h2><h3 id="1-Router"><a href="#1-Router" class="headerlink" title="1. Router"></a>1. Router</h3><p>在 page 文件夹中新建一个组件，使用<code>&lt;Link href=&#39;...&#39;&gt;</code>进行页面内跳转，这种跳转是 Client 端的，不对服务器做请求。<code>Link</code>这个组件已经封装好了 location.history 的逻辑，不用自己再写。</p>
+<blockquote>
+<p><code>Link</code>只是用做跳转的一个子组件，在上面加属性是没用的。</p>
+</blockquote>
+<p>router 可以通过 Hook <code>useRouter</code>取得，有一些 api 可用，如简单的有<code>router.query</code>可以取得 query 参数。</p>
+<p>通过<code>[]</code>符号可以在 pages 文件夹中声明动态 url 组件，比如属性为 id 时在跳转的时候写法类似:<code>/xx/[id]</code>，pages 中的文件名就起为<code>[id].js</code>，在页面组件中可通过<code>router.query.id</code>获取。动态表示<code>href</code>的时候可以用<code>as</code>属性来决定 url 中显示的内容。</p>
+<h3 id="2-组件化"><a href="#2-组件化" class="headerlink" title="2. 组件化"></a>2. 组件化</h3><p>组件化和 react 大同小异，传参嵌套，HOC，没有过多可说的。</p>
+<h3 id="3-数据通讯"><a href="#3-数据通讯" class="headerlink" title="3. 数据通讯"></a>3. 数据通讯</h3><p>next 为我们封装了个函数来获取远端数据-<code>getInitialProps</code>，这个函数接受一个参数 context，通过<code>context.query</code>可以获得 url 参数。</p>
+<blockquote>
+<p><code>getInitialProps</code>这个函数只可用于 page 组件中。</p>
+</blockquote>
+<p>由于直接访问页面时是服务器端渲染的，使用<code>console.log</code>打印出的内容也是在服务器端，但是如果是点击<code>Link</code>标签跳转到的页面进行<code>console.log</code>，由于之前也提到过<code>Link</code>跳转实在 Client 端进行的，不请求服务器，所以输出就是在浏览器的终端里，一定要注意。</p>
+<h3 id="4-UI-样式"><a href="#4-UI-样式" class="headerlink" title="4. UI 样式"></a>4. UI 样式</h3><p>next 不同于大多数框架，采用 css-in-js 的方式，在 jsx 中直接添加标签如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs javascript">&lt;style jsx&gt;&#123;<span class="hljs-string">`</span><br><span class="hljs-string">  a &#123; ... &#125;</span><br><span class="hljs-string">`</span>&#125;&lt;/style&gt;<br></code></pre></td></tr></table></figure>
+
+<p>一定不要忘了<code>&#123;``&#125;</code>。</p>
+<p>另外这种形式的 style 是局部的，也就是于自身存在的 jsx 中有效，对子组件中的内容都无效。如果要全局作用，在 css 中使用伪类<code>:global(..)</code>即可。或者使用<code>&lt;style jsx global&gt;</code>也可以。</p>
+<blockquote>
+<p>官方不建议使用全局样式。</p>
+</blockquote>
+<h3 id="5-API-Routes"><a href="#5-API-Routes" class="headerlink" title="5. API Routes"></a>5. API Routes</h3><p>nextjs 提供一种 serveless 的方式来构建 api。</p>
+<p>只需在<code>/pages/api</code>文件夹下创建 js 文件，默认会变为 api 接口，文件名就是接口名，文件内容类似:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> quotes <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../../quotes.json&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> (req, res) =&gt; &#123;<br>  <span class="hljs-keyword">const</span> quote = quotes[<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>() * quotes.<span class="hljs-property">length</span>)];<br>  res.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>).<span class="hljs-title function_">json</span>(quote);<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>传入的 req 可以用来获取请求信息，比如可以通过<code>req.query</code>获取 url 中的 query 参数。</p>
+<blockquote>
+<p>swr 是一种异步获取数据的<code>React Hook</code>，<code>useSWR(&#39;/api/..&#39;, fetcher)</code>，fetcher 传入 url，返回数据。</p>
+</blockquote>
+<h3 id="6-部署"><a href="#6-部署" class="headerlink" title="6. 部署"></a>6. 部署</h3><p>如果需要单独部署 nextjs 项目，也可以直接使用<code>next build</code>和<code>next start</code>命令进行本地部署，start 的时候可以添加 p 参数，比如:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># package.json中</span><br><span class="hljs-string">&quot;script&quot;</span>: &#123;<br>  <span class="hljs-string">&quot;dev&quot;</span>: <span class="hljs-string">&quot;next&quot;</span>,<br>  <span class="hljs-string">&quot;build&quot;</span>: <span class="hljs-string">&quot;next build&quot;</span>,<br>  <span class="hljs-string">&quot;start&quot;</span>: <span class="hljs-string">&quot;next start -p <span class="hljs-variable">$PORT</span>&quot;</span><br>  <span class="hljs-comment"># windows 写做next start -p %PORT%</span><br>&#125;<br><br><span class="hljs-comment"># 在运行的时候</span><br>PORT=2333 npm start<br><span class="hljs-comment"># windows 写做 cross-env PORT=2333 npm start</span><br></code></pre></td></tr></table></figure>
+
+<p>通过官方提供的<code>Zeit now</code>(创办 Zeit 的是个神人，同时也是 Next 的作者，有兴趣可以去了解下)。Now 这个平台的本质是个专门进行部署的网站，还有一些可以帮你快速建站，非常牛逼。</p>
+<p>通过在项目下简单的<code>now</code>命令就可以在 Now 平台上进行部署了(可以获得一个网站的 url 供人访问)。</p>
+<blockquote>
+<p>在使用命令之前，需要在<a target="_blank" rel="noopener" href="https://zeit.co/">now 官网</a>中进行注册，然后在命令行中初次使用时需要通过<code>now login</code>进行登录(会给你发个 confirm 邮件，确认时需要翻墙)。</p>
+</blockquote>
+<h3 id="7-支持静态页面导出"><a href="#7-支持静态页面导出" class="headerlink" title="7. 支持静态页面导出"></a>7. 支持静态页面导出</h3><p>通过命令<code>next export</code>可以进行静态页面导出(在 build 之后)，但需要进行一些配置。</p>
+<p>在根目录下创建 next.config.js 配置文件 内容如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-variable language_">module</span>.<span class="hljs-property">export</span> = &#123;<br>  <span class="hljs-attr">exportTrailingSlash</span>: <span class="hljs-literal">true</span>,<br>  <span class="hljs-attr">exportPathMap</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;<span class="hljs-keyword">return</span> &#123;...&#125;&#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果只是更改了配置文件里的内容，则不用重新 build</p>
+</blockquote>
+<p>其中比较重要的是<code>exportPathMap</code>这个属性，他是一个函数，返回值是 url map，如果一个 url 没有在这个函数返回，那么我们不能在地址栏里手动输入路径以访问此页面(跳转过去是可以的)。</p>
+<p>那么我们可以动态的在<code>exportPathMap</code>中返回路径，这个方法可以是异步的，这意味着我们可以在这个方法里通过调用 api 获取路径并添加到返回值里(添加的路径在输出文件夹中会单独形成一个文件)。</p>
+<h3 id="8-typescript-完美支持"><a href="#8-typescript-完美支持" class="headerlink" title="8. typescript 完美支持"></a>8. typescript 完美支持</h3><p>只需要添加简单的一句<code>cnpm install --save-dev typescript @types/react @types/node</code>，nextjs 完美支持 typescript，超简单。</p>
+<h3 id="9-支持-AMP-没什么好说的"><a href="#9-支持-AMP-没什么好说的" class="headerlink" title="9. 支持 AMP(没什么好说的)"></a>9. 支持 AMP(没什么好说的)</h3><h3 id="10-支持懒加载模块"><a href="#10-支持懒加载模块" class="headerlink" title="10. 支持懒加载模块"></a>10. 支持懒加载模块</h3><p>通过<code>await import(&#39;..&#39;)</code>这种语法可以让程序在第一次执行到这里的时候再加载，大大提高首屏效率。</p>
+<h3 id="三、-总结"><a href="#三、-总结" class="headerlink" title="三、 总结"></a>三、 总结</h3><p>nextjs 提供了很多便捷的一键式的操作，更有 now 平台的各种模板便于用户快速建立并部署自己的网站，而且还提供了 ssr，懒加载等技术进行效率的提高。着实是一个非常出色的框架，笔者过两天会使用此框架重构作品集网站，到时再对此框架做更深入的测评。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blog/categories/javascript%E6%A1%86%E6%9E%B6/" class="category-chain-item">javascript框架</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/blog/tags/javascript/">#javascript</a>
+      
+        <a href="/blog/tags/nextjs/">#nextjs</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Next.js</div>
+      <div>https://sakilawaw.github.io/blog/2020/02/10/2020-02-10-Nextjs/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Raiden</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年2月10日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2020/02/11/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/2020-02-11-sort-part-one/" title="排序算法[上]">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">排序算法[上]</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2020/02/09/Code%20Complete/2020-02-09-%E8%A1%A8%E9%A9%B1%E5%8A%A8%E6%B3%95/" title="表驱动法">
+                        <span class="hidden-mobile">表驱动法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/events.js" ></script>
+<script  src="/blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blog/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

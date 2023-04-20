@@ -1,0 +1,883 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/fluid.png">
+  <link rel="icon" href="/blog/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Raiden">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、基本使用几条基本的命令:  sass-convert xx.sass xx.scss或sass-convert xx.scss xx.sass:sass 与 scss 格式之间的相互转换 sass xx.scss xx.css:编译 scss 文件成为 css sass --watch xx.scss:xx.css:编译并监控，当 scss 更改时自动生成 css 文件(可以监控一个文件夹)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SASS知识点总结">
+<meta property="og:url" content="https://sakilawaw.github.io/blog/2018/06/08/2018-06-08-SASS%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="鲱鱼罐头大吃两碗">
+<meta property="og:description" content="一、基本使用几条基本的命令:  sass-convert xx.sass xx.scss或sass-convert xx.scss xx.sass:sass 与 scss 格式之间的相互转换 sass xx.scss xx.css:编译 scss 文件成为 css sass --watch xx.scss:xx.css:编译并监控，当 scss 更改时自动生成 css 文件(可以监控一个文件夹)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://sakilawaw.github.io/blog/images/sass-banner.jpg">
+<meta property="article:published_time" content="2018-06-08T10:22:04.000Z">
+<meta property="article:modified_time" content="2023-04-20T06:30:07.542Z">
+<meta property="article:author" content="Raiden">
+<meta property="article:tag" content="sass">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://sakilawaw.github.io/blog/images/sass-banner.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>SASS知识点总结 - 鲱鱼罐头大吃两碗</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sakilawaw.github.io","root":"/blog/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/blog/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blog/js/utils.js" ></script>
+  <script  src="/blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blog/">
+      <strong>鲱鱼罐头大吃两碗</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blog/images/sass-banner.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="SASS知识点总结"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2018-06-08 10:22" pubdate>
+          2018年6月8日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          74 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">SASS知识点总结</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="一、基本使用"><a href="#一、基本使用" class="headerlink" title="一、基本使用"></a>一、基本使用</h2><p>几条基本的命令:</p>
+<ul>
+<li><code>sass-convert xx.sass xx.scss</code>或<code>sass-convert xx.scss xx.sass</code>:sass 与 scss 格式之间的相互转换</li>
+<li><code>sass xx.scss xx.css</code>:编译 scss 文件成为 css</li>
+<li><code>sass --watch xx.scss:xx.css</code>:编译并监控，当 scss 更改时自动生成 css 文件(可以监控一个文件夹)</li>
+<li><code>sass --style compressed xx.scss:xx.css</code>:使用压缩模式编译，除了<code>!</code>型注释都被删除(<code>!</code>型注释见后文)</li>
+</ul>
+<h2 id="二、sass-扩展特性"><a href="#二、sass-扩展特性" class="headerlink" title="二、sass 扩展特性"></a>二、sass 扩展特性</h2><h3 id="1-嵌套规则"><a href="#1-嵌套规则" class="headerlink" title="1. 嵌套规则"></a>1. 嵌套规则</h3><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-selector-id">#outter</span> &#123;<br>  <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;<br>  <span class="hljs-selector-id">#inner</span> &#123;<br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">100px</span>;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>编译为：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-id">#outter</span> &#123;<br>  <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;<br>&#125;<br><span class="hljs-selector-id">#outter</span> <span class="hljs-selector-id">#inner</span> &#123;<br>  <span class="hljs-attribute">width</span>: <span class="hljs-number">100px</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>优势是可以省去嵌套的重复代码。</p>
+<p>扩展特性：</p>
+<ul>
+<li>可以多层嵌套。</li>
+<li>内部可以用<code>&amp;</code>来代指外层元素，用法为<code>&amp;:hover</code>、<code>&amp;-xx</code>等。**&amp;只能出现在选择器最开始的位置**。</li>
+<li>可以通过<code>:</code>实现 css 属性嵌套用法如下:</li>
+</ul>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-selector-id">#abc</span> &#123;<br>  <span class="hljs-attribute">font</span>: <span class="hljs-number">20px</span>/<span class="hljs-number">24px</span> fantasy &#123;<br>    <span class="hljs-comment">// 外层元素也可以赋值</span><br>    weight: bold;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>编译为:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-id">#abc</span> &#123;<br>  <span class="hljs-attribute">font</span>: <span class="hljs-number">20px</span>/<span class="hljs-number">24px</span> fantasy;<br>  <span class="hljs-attribute">font-weight</span>: bold;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-注释"><a href="#2-注释" class="headerlink" title="2. 注释"></a>2. 注释</h3><p>分两种:<code>//</code>和<code>/* */</code>。在编译为 css 的时候<code>//</code>会被删除，另一种不会。</p>
+<p>扩展特性:</p>
+<ul>
+<li>如果注释为<code>/* */</code>类型且以<code>!</code>开头，则这部分注释在压缩模式编译的时候仍然会保留这部分的注释，常用语作者信息。</li>
+<li>在注释中可以使用插值语法(使用<code>#&#123;$xx&#125;</code>插入 scss 变量)</li>
+</ul>
+<h3 id="3-SassScript"><a href="#3-SassScript" class="headerlink" title="3. SassScript"></a>3. SassScript</h3><p>SassScript 使 sass 成为一种可编程的语言，大大提高了灵活性。</p>
+<h4 id="3-1-变量声明"><a href="#3-1-变量声明" class="headerlink" title="3.1 变量声明"></a>3.1 变量声明</h4><p>我们可以使用<code>$</code>符号进行变量声明，如<code>$w: 5em</code>,在后续代码中我们就可以使用<code>$w</code>这个变量了，在编译的时候会自动进行替换。</p>
+<p>扩展特性:</p>
+<ul>
+<li>我们可以声明局部变量，即在一个选择器的<code>&#123;&#125;</code>之中声明变量，这样只有在这个<code>&#123;&#125;</code>范围内可以使用这个变量。局部变量后面加上<code>!global</code>标记也可以将变量全局化。</li>
+<li>我们可以在变量声明的时候在后面加上<code>!default</code>，这表示如果变量已经有值且不为<code>null</code>，则本次声明跳过，否则不跳过。</li>
+</ul>
+<h4 id="3-2-数据类型"><a href="#3-2-数据类型" class="headerlink" title="3.2 数据类型"></a>3.2 数据类型</h4><p>同一般的语言一样，SassScript 中也内置了一些数据类型:</p>
+<h5 id="3-2-1-numbers-1-2-13-10px-等"><a href="#3-2-1-numbers-1-2-13-10px-等" class="headerlink" title="3.2.1 numbers (1.2,13,10px 等)"></a>3.2.1 numbers (1.2,13,10px 等)</h5><p>只要 number 的单位一致<code>+ - * / % == != &gt;= &lt;= &gt; &lt;</code>都是可用的。比如<code>10px*10px==100px*1px</code>会得到<code>true</code>，注意乘法的时候单位也会变为平方，就是说<code>10px*10px==100px</code>会得到<code>false</code>。</p>
+<blockquote>
+<p><code>== !=</code>这两个运算符是可以用于所有类型的。</p>
+</blockquote>
+<h6 id="3-2-1-1-x2F-注意事项"><a href="#3-2-1-1-x2F-注意事项" class="headerlink" title="3.2.1.1 &#x2F;注意事项"></a>3.2.1.1 &#x2F;注意事项</h6><p><code>/</code>在三种情况下会进行运算编译:</p>
+<ol>
+<li>运算符之一为方法或 scss 变量</li>
+<li>运算式被括号包裹，且不在数组中。</li>
+<li>算式中存在<code>+</code></li>
+</ol>
+<p>如果你就是想得到<code>10px/20px</code>这种形式，分子分母一起用<code>#&#123;$xx&#125;</code>即可。</p>
+<h6 id="3-2-1-2-注意事项"><a href="#3-2-1-2-注意事项" class="headerlink" title="3.2.1.2 -注意事项"></a>3.2.1.2 -注意事项</h6><p><code>-</code>的使用只需要记住以下几点:</p>
+<ol>
+<li>想要减法运算就保持<code>-</code>两边都有空格</li>
+<li>前有空格后没有则表示负数</li>
+<li>在空格分割的数组中，将<code>-$var</code>这种形式的表达式用括号包裹起来，不然会进行减法运算</li>
+</ol>
+<h5 id="3-2-2-strings-三种方式”foo”-’foo’-foo"><a href="#3-2-2-strings-三种方式”foo”-’foo’-foo" class="headerlink" title="3.2.2 strings (三种方式”foo”,’foo’,foo)"></a>3.2.2 strings (三种方式”foo”,’foo’,foo)</h5><p>三种表达方式：单引号、双引号、没引号。使用起来基本没有不同，但有一个特例：如果是使用插值语法(<code>#&#123;$xx&#125;</code>)，且<code>$xx</code>是一个带引号的 string，则会自动去除引号。这个特性一般针对 mixin,如:</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-keyword">@mixin</span> f-message(<span class="hljs-variable">$selector</span>) &#123;<br>  <span class="hljs-selector-tag">body</span><span class="hljs-selector-class">.f</span> #&#123;<span class="hljs-variable">$selector</span>&#125;<span class="hljs-selector-pseudo">:before</span> &#123;<br>    <span class="hljs-attribute">content</span>: <span class="hljs-string">&quot;Hello!&quot;</span>;<br>  &#125;<br>&#125;<br><span class="hljs-keyword">@include</span> f-message(<span class="hljs-string">&quot;.header&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>会被编译为:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">body</span><span class="hljs-selector-class">.f</span> <span class="hljs-selector-class">.header</span><span class="hljs-selector-pseudo">:before</span> &#123;<br>  <span class="hljs-attribute">content</span>: <span class="hljs-string">&quot;Hello&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h6 id="3-2-2-1-字符串运算注意事项"><a href="#3-2-2-1-字符串运算注意事项" class="headerlink" title="3.2.2.1 字符串运算注意事项"></a>3.2.2.1 字符串运算注意事项</h6><p>字符串可以直接通过<code>+</code>进行相加，在字符串中可以使用插值语法(<code>#&#123;$xx&#125;</code>)来进行动态加法，如果插值内容为 null，则被视为空字符串。</p>
+<h5 id="3-2-3-colors-blue-123-rgba-0-0-0-0-5"><a href="#3-2-3-colors-blue-123-rgba-0-0-0-0-5" class="headerlink" title="3.2.3 colors (blue, #123, rgba(0,0,0,0.5))"></a>3.2.3 colors (blue, #123, rgba(0,0,0,0.5))</h5><p>在压缩模式下编译颜色的时候，引擎会挑选最短的名称，如<code>#FF0000=&gt;red,blanchedalmond=&gt;#FFEBCD</code>。如果要将颜色的字符串，比如<code>blanchedalmond</code>用到选择器插值中，请一定加上引号，如果是如下代码:</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-variable">$b</span>: blanchedalmond;<br><br><span class="hljs-selector-tag">body</span> #&#123;<span class="hljs-variable">$b</span>&#125; &#123;<br>  <span class="hljs-attribute">background</span>: #&#123;<span class="hljs-variable">$b</span>&#125;;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>压缩编译后的结果是:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">body</span> <span class="hljs-selector-id">#ffebcd</span> &#123;<br>  <span class="hljs-attribute">background</span>: <span class="hljs-number">#ffebcd</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这就造成了语法错误，这种情况下，请将 blanchedalmond 加上引号，这样压缩模式编译的时候<code>#ffebcd</code>的位置就会变成<code>blanchedalmond</code>。</p>
+<h6 id="3-2-3-1-颜色运算注意事项"><a href="#3-2-3-1-颜色运算注意事项" class="headerlink" title="3.2.3.1 颜色运算注意事项"></a>3.2.3.1 颜色运算注意事项</h6><p>颜色可以直接进行<code>+ - * /</code>，本质是 R、G、B 三种颜色的运算，如果某种颜色超过了<code>ff</code>则结果为<code>ff</code>。支持<code># rgba等形式</code>，在<code>rgba</code>形式中，两个透明度如果相同，则透明度不变，如果不同，则抛出错误。</p>
+<h5 id="3-2-4-booleans-true-x2F-false"><a href="#3-2-4-booleans-true-x2F-false" class="headerlink" title="3.2.4 booleans (true&#x2F;false)"></a>3.2.4 booleans (true&#x2F;false)</h5><blockquote>
+<p>布尔运算支持<code>and</code>、<code>or</code>和<code>not</code></p>
+</blockquote>
+<h5 id="3-2-5-nulls-null"><a href="#3-2-5-nulls-null" class="headerlink" title="3.2.5 nulls (null)"></a>3.2.5 nulls (null)</h5><h5 id="3-2-6-lists-如-1-5em-1em-0-1em-HE-AP"><a href="#3-2-6-lists-如-1-5em-1em-0-1em-HE-AP" class="headerlink" title="3.2.6 lists (如 1.5em 1em 0.1em,HE,AP)"></a>3.2.6 lists (如 1.5em 1em 0.1em,HE,AP)</h5><p>lists 多用于多值的 css 属性，比如 margin，border 等，在 sass 中，单个的值其实也被看作只有一个值的数组。lists 有两种表示形式，以空格分隔和以逗号分隔。</p>
+<p>SassScript 提供了一些关于 list 的使用方法：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.sass.hk/en/documentation/Sass/Script/Functions.html#nth-instance_method">nth</a>，访问数组中固定位置的元素。</li>
+<li><a target="_blank" rel="noopener" href="https://www.sass.hk/en/documentation/Sass/Script/Functions.html#join-instance_method">join</a>，组合两个数组。</li>
+<li><a target="_blank" rel="noopener" href="https://www.sass.hk/en/documentation/Sass/Script/Functions.html#append-instance_method">append</a>，添加值到数组。</li>
+<li><a target="_blank" rel="noopener" href="https://www.sass.hk/en/documentation/file.SASS_REFERENCE.html#each-directive">@each</a>，遍历数组。</li>
+</ul>
+<p>数组中可以嵌套数组，通过括号的方式:<code>(1px 2px) (3px 4px)</code>编译成 css 之后括号会被去除，但在 scss 中带不带括号是大不相同的。</p>
+<blockquote>
+<p>在 scss 编译的过程中，括号或<code>null</code>或<code>空元素()</code>都会被去掉。<br>使用逗号可以表示单元素数组:<code>(1,)</code>。<br>数组不支持任何运算符，请用封装好的方法进行运算。</p>
+</blockquote>
+<h5 id="3-2-7-maps-如-key1-value1-key2-value2"><a href="#3-2-7-maps-如-key1-value1-key2-value2" class="headerlink" title="3.2.7 maps (如(key1: value1, key2: value2))"></a>3.2.7 maps (如(key1: value1, key2: value2))</h5><p>map 相当于键值对，如<code>$map: (k1: v1, k2: v2, k3: v3);</code>,map 必须被括号包裹，用逗号分割，key 和 value 可以是任何值，key 不能重复。map 有也有一系列的<a target="_blank" rel="noopener" href="https://www.sass.hk/en/documentation/Sass/Script/Functions.html#map-functions">方法</a>，这里不赘述了，请看文档。使用<code>@each</code>遍历的时候，访问顺序和声明顺序一致。我们可以将数组的 list 使用在 map 上，这时 map 会被看作一个数组<code>(k1:v1,k2:v2)=&gt;k1 v1,k2 v2</code>,反之不可。<strong>map 不能直接被转化为 css，只用于中间运算。</strong></p>
+<h4 id="3-3-特殊语法"><a href="#3-3-特殊语法" class="headerlink" title="3.3 特殊语法"></a>3.3 特殊语法</h4><blockquote>
+<p>这里有<a target="_blank" rel="noopener" href="https://www.sass.hk/en/documentation/Sass/Script/Functions.html">内置函数的列表</a>，使用时可以查阅。</p>
+</blockquote>
+<h5 id="3-3-1-命名参数"><a href="#3-3-1-命名参数" class="headerlink" title="3.3.1 命名参数"></a>3.3.1 命名参数</h5><p><code>hsl($hue: 0, $saturation: 100%, $lightness: 50%)</code>，使用这种命名参数可以在一个函数有多个参数可选的时候明确参数，看起来比较清晰。</p>
+<h5 id="3-3-2-插值"><a href="#3-3-2-插值" class="headerlink" title="3.3.2 插值"></a>3.3.2 插值</h5><p>使用插值语法<code>#&#123;$xx&#125;</code>可以将变量转化为<code>Plain CSS</code>，相邻的运算符不会生效，如<code>#$&#123;a&#125;/#&#123;$b&#125;</code>不会进行计算。</p>
+<h5 id="3-3-3-amp-语法"><a href="#3-3-3-amp-语法" class="headerlink" title="3.3.3 &amp;语法"></a>3.3.3 &amp;语法</h5><p><code>&amp;</code>可以表示父选择器，<code>&amp;</code>可以用作变量进行计算，在做变量的时候是双层嵌套的数组，比如<code>body a</code>的<code>&amp;</code>为<code>((body, a),)</code>。</p>
+<p>如果没有父选择器(mixin)，<code>&amp;</code>为 null，可以通过如下代码判断是否有父选择器:</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-keyword">@mixin</span> does-parent-exist &#123;<br>  <span class="hljs-keyword">@if</span> &amp; &#123;<br>    &amp;<span class="hljs-selector-pseudo">:hover</span> &#123;<br>      <span class="hljs-attribute">color</span>: red;<br>    &#125;<br>  &#125; <span class="hljs-keyword">@else</span> &#123;<br>    <span class="hljs-selector-tag">a</span> &#123;<br>      <span class="hljs-attribute">color</span>: red;<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-指令集"><a href="#4-指令集" class="headerlink" title="4. @指令集"></a>4. @指令集</h3><h4 id="4-1-import"><a href="#4-1-import" class="headerlink" title="4.1 @import"></a>4.1 @import</h4><p>我们可以通过<code>@import &#39;xx.scss&#39;</code>的形式引入另外的<code>scss</code>文件，如果不加后缀，引擎会自动寻找<code>.scss</code>和<code>.sass</code>文件。</p>
+<p>css 中也有<code>@import</code>这个指令，除了以下 4 种情况直接原文编译成 css，其他的情况都会进行 scss 编译导入:</p>
+<ol>
+<li>文件扩展名为<code>.css</code></li>
+<li>文件名以<code>http://</code>开始</li>
+<li>文件名是<code>url(xx)</code></li>
+<li>@import 中有任何媒体查询</li>
+</ol>
+<blockquote>
+<p><code>@import &quot;a&quot;, &quot;b&quot;;</code>可以同时引入多个文件。</p>
+</blockquote>
+<p>如果不想让 scss 文件编译后导入，可以在要引用的文件名前加<code>_</code>，这样就不会编译成<code>.css</code>文件了。如:<code>_out.scss</code>文件，导入时使用<code>@import &quot;out&quot;;</code>即可，但要注意不要吧前置<code>_</code>和不前置的同名文件放在同一个文件夹下。</p>
+<h4 id="4-2-media"><a href="#4-2-media" class="headerlink" title="4.2 @media"></a>4.2 @media</h4><p><code>@media</code>在 css 可以直接使用，在 scss 中多出一点特性:可以嵌套在 css 规则中。解析的时候会依次寻找到跟选择器，然后把规则加在整体的选择器上，如:</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-selector-tag">body</span> &#123;<br>  <span class="hljs-attribute">color</span>: wheat;<br>  inner &#123;<br>    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">14px</span>;<br>    innner &#123;<br>      <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid red;<br>      <span class="hljs-keyword">@media</span> screen <span class="hljs-keyword">and</span> (<span class="hljs-attribute">max-width</span>: <span class="hljs-number">800px</span>) &#123;<br>        <span class="hljs-attribute">width</span>: <span class="hljs-number">80%</span>;<br>      &#125;<br>      <span class="hljs-keyword">@media</span> screen <span class="hljs-keyword">and</span> (<span class="hljs-attribute">min-width</span>: <span class="hljs-number">800px</span>) &#123;<br>        <span class="hljs-attribute">width</span>: <span class="hljs-number">60%</span>;<br>      &#125;<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>会被编译成:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">body</span> &#123;<br>  <span class="hljs-attribute">color</span>: wheat;<br>&#125;<br><span class="hljs-selector-tag">body</span> inner &#123;<br>  <span class="hljs-attribute">font-size</span>: <span class="hljs-number">14px</span>;<br>&#125;<br><span class="hljs-selector-tag">body</span> inner innner &#123;<br>  <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid red;<br>&#125;<br><span class="hljs-keyword">@media</span> screen <span class="hljs-keyword">and</span> (<span class="hljs-attribute">max-width</span>: <span class="hljs-number">800px</span>) &#123;<br>  <span class="hljs-selector-tag">body</span> inner innner &#123;<br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">80%</span>;<br>  &#125;<br>&#125;<br><span class="hljs-keyword">@media</span> screen <span class="hljs-keyword">and</span> (<span class="hljs-attribute">min-width</span>: <span class="hljs-number">800px</span>) &#123;<br>  <span class="hljs-selector-tag">body</span> inner innner &#123;<br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">60%</span>;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>同样在<code>@media</code>语句中可以使用插值语法<code>#&#123;$xx&#125;</code>。</p>
+</blockquote>
+<h4 id="4-3-extend"><a href="#4-3-extend" class="headerlink" title="4.3 @extend"></a>4.3 @extend</h4><p><code>@extend</code>是<code>sass</code>扩展的特性，和<code>Java</code>中的继承类似相当于拷贝了父选择器的所有属性，使用方法如下:</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-selector-class">.father</span> &#123;<br>  <span class="hljs-attribute">color</span>: red;<br>&#125;<br><span class="hljs-selector-class">.son</span> &#123;<br>  <span class="hljs-keyword">@extend</span> .father;<br>  <span class="hljs-attribute">background</span>: yellow;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>会被编译成:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.father</span>,<br><span class="hljs-selector-class">.son</span> &#123;<br>  <span class="hljs-attribute">color</span>: red;<br>&#125;<br><span class="hljs-selector-class">.son</span> &#123;<br>  <span class="hljs-attribute">background</span>: yellow;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这样<code>.son</code>就有了<code>.father</code>的所有属性了!我们可以看到其实他的内部原理就是把所有<code>.father</code>的地方换成<code>.father, .son</code>。如果产生了<code>.father.father</code>或<code>#a#b</code>这种不合理的东西，引擎会自动删减掉，非常智能。</p>
+<blockquote>
+<p>多继承是可以的，基本原理还是一样:把所有<code>.father</code>的地方换成<code>.father, .son</code>，如果有重复属性，则后来者优先。写法上讲可以写两行也可以逗号分割。<br>多重继承也是可以的，即 A extend B，B extend C。最后的结果通过上述原理也可以推出来。</p>
+</blockquote>
+<p>如果父子两个选择器都不是单一元素，都是很长一串的话，有个交叉的合并方法，规则是如果两个没有公用元素，则只会有 a 在 b 前和 b 在 a 前两种。如果有重复元素就把重复的提取出来再做交叉，具体例子如:</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-selector-id">#admin</span> <span class="hljs-selector-class">.tabbar</span> <span class="hljs-selector-tag">a</span> &#123;<br>  <span class="hljs-attribute">font-weight</span>: bold;<br>&#125;<br><span class="hljs-selector-id">#demo</span> <span class="hljs-selector-class">.overview</span> <span class="hljs-selector-class">.fakelink</span> &#123;<br>  <span class="hljs-keyword">@extend</span> a;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>会被编译为：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-id">#admin</span> <span class="hljs-selector-class">.tabbar</span> <span class="hljs-selector-tag">a</span>,<br><span class="hljs-selector-id">#admin</span> <span class="hljs-selector-class">.tabbar</span> <span class="hljs-selector-id">#demo</span> <span class="hljs-selector-class">.overview</span> <span class="hljs-selector-class">.fakelink</span>,<br><span class="hljs-selector-id">#demo</span> <span class="hljs-selector-class">.overview</span> <span class="hljs-selector-id">#admin</span> <span class="hljs-selector-class">.tabbar</span> <span class="hljs-selector-class">.fakelink</span> &#123;<br>  <span class="hljs-attribute">font-weight</span>: bold;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-selector-id">#admin</span> <span class="hljs-selector-class">.tabbar</span> <span class="hljs-selector-tag">a</span> &#123;<br>  <span class="hljs-attribute">font-weight</span>: bold;<br>&#125;<br><span class="hljs-selector-id">#admin</span> <span class="hljs-selector-class">.overview</span> <span class="hljs-selector-class">.fakelink</span> &#123;<br>  <span class="hljs-keyword">@extend</span> a;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>被编译为:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-id">#admin</span> <span class="hljs-selector-class">.tabbar</span> <span class="hljs-selector-tag">a</span>,<br><span class="hljs-selector-id">#admin</span> <span class="hljs-selector-class">.tabbar</span> <span class="hljs-selector-class">.overview</span> <span class="hljs-selector-class">.fakelink</span>,<br><span class="hljs-selector-id">#admin</span> <span class="hljs-selector-class">.overview</span> <span class="hljs-selector-class">.tabbar</span> <span class="hljs-selector-class">.fakelink</span> &#123;<br>  <span class="hljs-attribute">font-weight</span>: bold;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>仔细体会一下。</p>
+<h5 id="4-3-2-extend-only"><a href="#4-3-2-extend-only" class="headerlink" title="4.3.2 @extend-only"></a>4.3.2 @extend-only</h5><p>有些时候有些规则我们只想在<code>@extend</code>中使用，编译时我们想剔除它。这时就要用<code>%</code>来修饰，用法如下:</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-selector-id">#outer</span> <span class="hljs-selector-tag">a</span> %e &#123;<br>  <span class="hljs-attribute">color</span>: beige;<br>&#125;<br><br><span class="hljs-selector-id">#inner</span> <span class="hljs-selector-tag">b</span> &#123;<br>  <span class="hljs-keyword">@extend</span> %e;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>被编译成:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-id">#outer</span> <span class="hljs-selector-tag">a</span> <span class="hljs-selector-id">#inner</span> <span class="hljs-selector-tag">b</span>,<br><span class="hljs-selector-id">#inner</span> <span class="hljs-selector-id">#outer</span> <span class="hljs-selector-tag">a</span> <span class="hljs-selector-tag">b</span> &#123;<br>  <span class="hljs-attribute">color</span>: beige;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在生成的 css 代码中没有<code>#outer a %e</code>这一项，这就是<code>@extend-only</code>的用法。(别忘了这里可以用交叉合并的方式推导出生成的选择器)</p>
+<blockquote>
+<p>注意如果在<code>@media</code>内部使用<code>@extend</code>，则父规则也要在<code>@media</code>里，否则报错。</p>
+</blockquote>
+<h5 id="4-3-3-at-root"><a href="#4-3-3-at-root" class="headerlink" title="4.3.3 @at-root"></a>4.3.3 @at-root</h5><p>这个指令可以让后面的语句声明在全局中，有了它在别的规则中也可以声明全局规则了！还可以多行声明，像这样:</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-selector-class">.outer</span> &#123;<br>  <span class="hljs-keyword">@at-root</span> &#123;<br>    <span class="hljs-selector-class">.inner</span> &#123;<br>      <span class="hljs-attribute">color</span>: blue;<br>    &#125;<br>    <span class="hljs-selector-class">.inner2</span> &#123;<br>      <span class="hljs-attribute">font-size</span>: <span class="hljs-number">10px</span>;<br>    &#125;<br>  &#125;<br>  <span class="hljs-selector-class">.inner3</span> &#123;<br>    <span class="hljs-attribute">color</span>: yellow;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>会被编译为:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.inner</span> &#123;<br>  <span class="hljs-attribute">color</span>: blue;<br>&#125;<br><span class="hljs-selector-class">.inner2</span> &#123;<br>  <span class="hljs-attribute">font-size</span>: <span class="hljs-number">10px</span>;<br>&#125;<br><span class="hljs-selector-class">.outer</span> <span class="hljs-selector-class">.inner3</span> &#123;<br>  <span class="hljs-attribute">color</span>: yellow;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>可以在<code>@at-root</code>后面加上<code>(with: ...)或(without: ...)</code>去添加或者去除父级<code>@指令</code>，默认是不去除的，所以<code>without</code>使用的较多，<code>without: all</code>代表去除所有父级元素，<code>without:rule</code>代表去除所有父级<code>@指令</code>。</p>
+</blockquote>
+<h5 id="4-3-4-debug"><a href="#4-3-4-debug" class="headerlink" title="4.3.4 @debug"></a>4.3.4 @debug</h5><p>这个指令可以用来输出调试信息，我们想看某个变量或者表达式的话，在编译的时候直接可以看到，很方便。</p>
+<blockquote>
+<p>同样类型的还有<code>@warn</code>、<code>@error</code>，<code>@error</code>会直接阻断编译，<code>@warn</code>多用于第三方库警告。</p>
+</blockquote>
+<h5 id="4-3-5-mixin"><a href="#4-3-5-mixin" class="headerlink" title="4.3.5 @mixin"></a>4.3.5 @mixin</h5><p><code>@mixin</code>和<code>@extend</code>都可以进行规则的复用，<code>@mixin</code>可以避免使用<code>@extend</code>必须声明的无语义的类名，甚至我们可以在<code>@mixin</code>中加入参数，增强灵活性。</p>
+<p>基本使用语法如下(参数是可选的):</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-keyword">@mixin</span> large-text(<span class="hljs-variable">$color</span>) &#123;<br>  <span class="hljs-attribute">font</span>: &#123;<br>    size: <span class="hljs-number">20px</span>;<br>    weight: bold;<br>  &#125;<br>  <span class="hljs-attribute">color</span>: <span class="hljs-variable">$color</span>;<br>&#125;<br><span class="hljs-selector-tag">body</span> &#123;<br>  <span class="hljs-keyword">@include</span> large-text(<span class="hljs-number">#fff</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>对于参数，我们可以使用<strong>关键字参数</strong>来明确参数对应关系，写法如:<code>sexy-border($color: blue)</code>。<br>由于历史原因，mixin 的名字中<code>_</code>和<code>-</code>是可以通用的，这两个字符可以随意互换。<br>多数编程语言中的<code>...</code>语法在 scss 中也可以使用，使用在参数中时可以自动将传入参数包装成一个数组。个人感觉完全可以用数组或 map 变量代替。</p>
+</blockquote>
+<p>通过<code>@include</code>可以引入<code>@mixin</code>规则，<code>@mixin</code>是一组规则的叠加，和<code>@extend</code>的原理是截然不同的。而且<code>@include</code>可以在任何地方使用，这和继承也是不同的。</p>
+<p><code>@mixin</code>可以配合<code>@content</code>实现”插槽”，例如:</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-keyword">@mixin</span> test-block &#123;<br>  <span class="hljs-selector-tag">body</span> <span class="hljs-selector-tag">a</span> &#123;<br>    <span class="hljs-keyword">@content</span>;<br>  &#125;<br>&#125;<br><span class="hljs-selector-class">.outer</span> &#123;<br>  <span class="hljs-keyword">@include</span> test-block &#123;<br>    <span class="hljs-selector-id">#abc</span> &#123;<br>      <span class="hljs-attribute">color</span>: black;<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>会被编译为:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.outer</span> <span class="hljs-selector-tag">body</span> <span class="hljs-selector-tag">a</span> <span class="hljs-selector-id">#abc</span> &#123;<br>  <span class="hljs-attribute">color</span>: black;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果<code>@content</code>被循环包裹，生成的 css 中会有好几组重复的规则，需要注意。<br>内置方法<code>content-exists()</code>用于在运行时判断是否传入规则块，强制传入规则块可以用这个。</p>
+</blockquote>
+<p><code>@mixin</code>也可以嵌套<code>@mixin</code>，规则的叠加，很好理解。</p>
+<h3 id="5-控制语句"><a href="#5-控制语句" class="headerlink" title="5. 控制语句"></a>5. 控制语句</h3><p>同大部分语言一样，sass 也有控制语句的功能，多配合<code>mixins</code>使用。</p>
+<h4 id="5-1-if"><a href="#5-1-if" class="headerlink" title="5.1 if()"></a>5.1 if()</h4><p><code>if()</code>语句是内置函数，使用方式类似三元表达式，如<code>if(1+1==2, 1px, 2px)</code>,可以用于变量赋值。</p>
+<blockquote>
+<p><code>@if</code>语句可用于规则声明，使用方式如<code>@if 1+1==2 &#123;color: white&#125;</code>。后面可以跟一系列的<code>@else if</code>和<code>@else</code>语句，用法和<code>Js</code>中类似。</p>
+</blockquote>
+<h4 id="5-2-for"><a href="#5-2-for" class="headerlink" title="5.2 @for"></a>5.2 @for</h4><p>循环语句，使用方法如:</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-keyword">@for</span> <span class="hljs-variable">$i</span> from <span class="hljs-number">1</span> through <span class="hljs-number">3</span> &#123;<br>  <span class="hljs-selector-class">.item-</span>#&#123;<span class="hljs-variable">$i</span>&#125; &#123;<br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">2em</span> * <span class="hljs-variable">$i</span>;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>结果会是:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.item-1</span> &#123;<br>  <span class="hljs-attribute">width</span>: <span class="hljs-number">2em</span>;<br>&#125;<br><span class="hljs-selector-class">.item-2</span> &#123;<br>  <span class="hljs-attribute">width</span>: <span class="hljs-number">4em</span>;<br>&#125;<br><span class="hljs-selector-class">.item-3</span> &#123;<br>  <span class="hljs-attribute">width</span>: <span class="hljs-number">6em</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="5-3-each"><a href="#5-3-each" class="headerlink" title="5.3 @each"></a>5.3 @each</h4><p><code>@each</code>也是循环，用来循环数组，使用方式如下:</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-keyword">@each</span> <span class="hljs-variable">$animal</span> in puma, sea-slug, egret, salamander &#123;<br>  .#&#123;<span class="hljs-variable">$animal</span>&#125;-<span class="hljs-attribute">icon</span> &#123;<br>    <span class="hljs-attribute">background-image</span>: <span class="hljs-built_in">url</span>(<span class="hljs-string">&quot;/images/#&#123;$animal&#125;.png&quot;</span>);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>被编译成:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.puma-icon</span> &#123;<br>  <span class="hljs-attribute">background-image</span>: <span class="hljs-built_in">url</span>(<span class="hljs-string">&quot;/images/puma.png&quot;</span>);<br>&#125;<br><span class="hljs-selector-class">.sea-slug-icon</span> &#123;<br>  <span class="hljs-attribute">background-image</span>: <span class="hljs-built_in">url</span>(<span class="hljs-string">&quot;/images/sea-slug.png&quot;</span>);<br>&#125;<br><span class="hljs-selector-class">.egret-icon</span> &#123;<br>  <span class="hljs-attribute">background-image</span>: <span class="hljs-built_in">url</span>(<span class="hljs-string">&quot;/images/egret.png&quot;</span>);<br>&#125;<br><span class="hljs-selector-class">.salamander-icon</span> &#123;<br>  <span class="hljs-attribute">background-image</span>: <span class="hljs-built_in">url</span>(<span class="hljs-string">&quot;/images/salamander.png&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>对于多维数组，上例中的<code>$animal</code>可以写为一个数组，和多维数组中的数一一对应，访问的时候也是一维一维访问。<br><code>@each</code>也可以用来访问 map，map 中的键和值会当作一个数组，所以<code>$animal</code>的位置应该写两个变量。</p>
+</blockquote>
+<h4 id="5-4-while"><a href="#5-4-while" class="headerlink" title="5.4 @while"></a>5.4 @while</h4><p>这个指令也是循环，用法和<code>js</code>类似，只不过赋值语句变为<code>$i: $i-1</code>这种形式。</p>
+<h4 id="5-5-function"><a href="#5-5-function" class="headerlink" title="5.5 @function"></a>5.5 @function</h4><p>scss 支持函数，使用<code>@function</code>定义函数，使用<code>@return</code>返回值，最好加上前缀，以免和内置函数重名。关于参数的特性其实跟<code>@mixin</code>差不多，都是一些常规功能。由于历史原因，函数名中的<code>-</code>和<code>_</code>是互通的，这和 mixin 也一样。</p>
+<h3 id="5-输出格式参数"><a href="#5-输出格式参数" class="headerlink" title="5. 输出格式参数"></a>5. 输出格式参数</h3><p>虽然默认输出的 css 格式很实用，scss 也提供了一些参数供我们手动调整，我们在命令行中使用<code>--style xx</code>来设置输出格式，格式有如下几种:</p>
+<ul>
+<li>nested</li>
+</ul>
+<p>这是默认的输出格式，每个属性一行，简明易懂，但后大括号不是单占一行的，和我们平时手写的格式有点不同。</p>
+<ul>
+<li>expanded</li>
+</ul>
+<p>在<code>nested</code>基础上，后大括号单占一行，和我们常规手写格式一模一样。</p>
+<ul>
+<li>compact</li>
+</ul>
+<p>每个选择器和它的规则单占一行，压缩率更高。</p>
+<ul>
+<li>compressed</li>
+</ul>
+<p>压缩模式，所有都在一行，需要极致压缩文件时用。</p>
+<h3 id="6-sass-扩展"><a href="#6-sass-扩展" class="headerlink" title="6. sass 扩展"></a>6. sass 扩展</h3><p>我们可以通过<code>Ruby</code>支持的一些函数手动扩展 sass 特性，但是这需要我们对<code>Ruby</code>有很强的理解，这里就不赘述了。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blog/categories/%E4%BB%A3%E7%A0%81%E6%A0%B7%E5%BC%8F/" class="category-chain-item">代码样式</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/blog/tags/sass/">#sass</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>SASS知识点总结</div>
+      <div>https://sakilawaw.github.io/blog/2018/06/08/2018-06-08-SASS知识点总结/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Raiden</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2018年6月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2018/11/07/2018-11-07-%E4%BD%BF%E7%94%A8%E7%BC%A9%E6%94%BE%E6%9D%A5%E6%B8%85%E6%99%B0%E5%8C%96canvas/" title="使用DevicePixelRatio来清晰化canvas">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">使用DevicePixelRatio来清晰化canvas</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2018/06/01/2018-06-01-vscode%E5%88%9D%E4%BD%93%E9%AA%8C/" title="vscode初体验">
+                        <span class="hidden-mobile">vscode初体验</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/events.js" ></script>
+<script  src="/blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blog/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

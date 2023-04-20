@@ -1,0 +1,702 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/fluid.png">
+  <link rel="icon" href="/blog/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Raiden">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="这篇文章是算法系列的第一篇，为什么写这么个系列呢，主要因为我一直对算法这个东西很好奇，非常想学，只有总结才能让我更好的系统学习，不然就是狗熊掰棒子 🙃，而且顺便能给其他同学一点点儿启发也是非常开心的一件事儿。我所有的文章都会以一种讲述的口吻来写，讲给大家听也讲给自己听。好了废话不多说，下面直接进入主题。 概览排序算法这个东西相信很多同学从很早就开始接触了，最开始是冒泡排序(万年入门排序)，之后再">
+<meta property="og:type" content="article">
+<meta property="og:title" content="排序算法[上]">
+<meta property="og:url" content="https://sakilawaw.github.io/blog/2020/02/11/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/2020-02-11-sort-part-one/index.html">
+<meta property="og:site_name" content="鲱鱼罐头大吃两碗">
+<meta property="og:description" content="这篇文章是算法系列的第一篇，为什么写这么个系列呢，主要因为我一直对算法这个东西很好奇，非常想学，只有总结才能让我更好的系统学习，不然就是狗熊掰棒子 🙃，而且顺便能给其他同学一点点儿启发也是非常开心的一件事儿。我所有的文章都会以一种讲述的口吻来写，讲给大家听也讲给自己听。好了废话不多说，下面直接进入主题。 概览排序算法这个东西相信很多同学从很早就开始接触了，最开始是冒泡排序(万年入门排序)，之后再">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://sakilawaw.github.io/blog/images/sort-part-one-banner.jpg">
+<meta property="article:published_time" content="2020-02-11T09:15:11.000Z">
+<meta property="article:modified_time" content="2023-04-20T06:30:07.542Z">
+<meta property="article:author" content="Raiden">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://sakilawaw.github.io/blog/images/sort-part-one-banner.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>排序算法[上] - 鲱鱼罐头大吃两碗</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sakilawaw.github.io","root":"/blog/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/blog/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blog/js/utils.js" ></script>
+  <script  src="/blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blog/">
+      <strong>鲱鱼罐头大吃两碗</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blog/images/sort-part-one-banner.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="排序算法[上]"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-02-11 09:15" pubdate>
+          2020年2月11日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          32 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">排序算法[上]</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>这篇文章是算法系列的第一篇，为什么写这么个系列呢，主要因为我一直对算法这个东西很好奇，非常想学，只有总结才能让我更好的系统学习，不然就是狗熊掰棒子 🙃，而且顺便能给其他同学一点点儿启发也是非常开心的一件事儿。我所有的文章都会以一种讲述的口吻来写，讲给大家听也讲给自己听。好了废话不多说，下面直接进入主题。</p>
+<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>排序算法这个东西相信很多同学从很早就开始接触了，最开始是冒泡排序(万年入门排序)，之后再深入一些我们会了解到更多: 选择、插入、希尔、归并、快排、堆排等等，我们一一道来(假设所有的排序都是从小到大)。</p>
+<h2 id="如何判断一个算法好坏"><a href="#如何判断一个算法好坏" class="headerlink" title="如何判断一个算法好坏"></a>如何判断一个算法好坏</h2><p>稍微了解下我们就会发现排序算法多种多样，那么我们怎么判断他们的好坏呢？几个概念应运而生:</p>
+<h3 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h3><p>快慢是衡量一个算法最最直观的方法了，我们可以直接在运行程序前后计时，得出程序的运行时间进行比较，但是有的时候我们手头没有计算机来运行程序，我们就需要一些理论知识来判断程序好坏，时间复杂度就是衡量程序快慢的一个指标，通常是人脑可以推算出来的。</p>
+<p>当输入为 N 时，我们可以大概估出一个时间量级，我们称之为<code>O(..)</code>，当我们考虑时间复杂度的时候，通常会忽略倍数，因为在 N 比较大的时候倍数并不会影响结果，比如<code>O(N^2)</code>和<code>O(3N^2)</code>，当 N 为 100 时，常数 3 对结果影响已经没不大了，更不用说样本更大的时候了。</p>
+<p>常见的复杂度有<code>O(1)</code>,<code>O(N)</code>,<code>O(N^2)</code>,<code>O(N^logN)</code>(出现 log 是因为二分处理情况)。</p>
+<h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3><p>占用空间大小是另一个衡量因素，这个复杂度的意思是在样本量级为 N 的时候，程序会占用多少内存，这个指标太高也是不行的。空间复杂度也用<code>O(..)</code>表示，比如我们在算法中声明了个长度为 N 的数组来进行中间的数据处理，这时算法的空间复杂度就是<code>O(N)</code>。</p>
+<h3 id="稳定性"><a href="#稳定性" class="headerlink" title="稳定性"></a>稳定性</h3><p>上面两个复杂度对算法都是通用的，对于排序来说还有稳定性这个指标，他是指当我们排完序之后值相同的项顺序还是否都是原来的顺序，如果是的话算法就是稳定的，否则就是不稳定。</p>
+<p>有些时候我们在排序的过程中不想让相同值的项再改变顺序，比如：</p>
+<blockquote>
+<p>一个队列每一项有两个属性 A，B，我们希望整体以 A 属性的大小进行排序，但当 A 相同时我们以 B 的大小来进行排序。</p>
+</blockquote>
+<p>如果我们的排序算法是稳定的，那么我们可以以 B 属性大小进行排列，然后再以 A 属性大小排序。两次排序达到要求。但是如果我们的算法是不稳定的，在第二次排序的时候可能会破坏第一次的结果。</p>
+<p>综上我们也要考虑到排序算法的稳定性。</p>
+<h2 id="排序算法实现"><a href="#排序算法实现" class="headerlink" title="排序算法实现"></a>排序算法实现</h2><p>排序算法里选择排序、冒泡排序、插入排序、希尔排序都属于初级排序算法，相对来说效率不高，真正常用的是快排、归并排序、堆排和他们的一些变型。非常推荐在阅读文章时看看<a target="_blank" rel="noopener" href="https://www.cs.usfca.edu/~galles/visualization/ComparisonSort.html">排序算法的动画演示</a>，除了堆排序之外都有，堆排序在<a target="_blank" rel="noopener" href="https://www.cs.usfca.edu/~galles/visualization/HeapSort.html">这里</a>。阅读的时候边看动画演示边看下面的代码可以让你更好的理解。</p>
+<h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><p>我们从最基本的冒泡排序开始，我们这么做：1-2 比出个较大的，把较大的放到第 2 个，然后 2-3 比，较大的放在第 3 个…以此类推，遍历一轮之后我们可以获得整个数组最大的值，且时候最大的值已经被换到最后一个了。这时第一轮结束，从头遍历开始第二轮。</p>
+<p>这种方式我们可以把它联想为一个个气泡从水底冒到水面的过程，所以称之为冒泡排序，代码实现如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> mock = [<span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">2</span>, <span class="hljs-number">6</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>];<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">bubbleSort</span>(<span class="hljs-params">arr</span>) &#123;<br>  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = arr.<span class="hljs-property">length</span>; i &gt; <span class="hljs-number">0</span>; --i) &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> j = <span class="hljs-number">0</span>; j &lt; i - <span class="hljs-number">1</span>; j++) &#123;<br>      <span class="hljs-keyword">if</span> (arr[j] &gt; arr[j + <span class="hljs-number">1</span>]) &#123;<br>        <span class="hljs-comment">// 交换</span><br>        <span class="hljs-keyword">let</span> temp = arr[j];<br>        arr[j] = arr[j + <span class="hljs-number">1</span>];<br>        arr[j + <span class="hljs-number">1</span>] = temp;<br>      &#125;<br>    &#125;<br>  &#125;<br>  <span class="hljs-keyword">return</span> arr;<br>&#125;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`排序后结果: <span class="hljs-subst">$&#123;bubbleSort(mock)&#125;</span>`</span>);<br></code></pre></td></tr></table></figure>
+
+<p>我们从上面的三个维度分析一下，我们遍历了 N 遍数组，数组中有 N 个元素，所以时间复杂度就是<code>O(N^2)</code>。(其实从第二遍起就是 N-1 了，后面越来越少，但是这种细小的次数可以忽略不计，计做 N 次)。空间复杂度上由于我们交换元素时需要有个临时变量，所以是<code>O(1)</code>。最后从稳定性上讲，如果是我上面的实现来看是稳定的，因为当两数相同时并不进行交换，如果比较的时候用<code>&gt;=</code>算法就是不稳定的了。</p>
+<p>可见冒泡虽然实现起来简单，但是效率确实不高。</p>
+<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><p>选择排序思想比冒泡还简单：遍历数组，选择一个最小的，换到第一个位置，遍历第二遍时从第二个开始选出剩下的里面最小的，换到第二个位置…以此类推。思想比较简单，直接上代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">selectSort</span>(<span class="hljs-params">arr</span>) &#123;<br>  <span class="hljs-keyword">let</span> minIdx;<br>  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; arr.<span class="hljs-property">length</span>; ++i) &#123;<br>    minIdx = i;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> j = i + <span class="hljs-number">1</span>; j &lt; arr.<span class="hljs-property">length</span>; ++j) &#123;<br>      <span class="hljs-keyword">if</span> (arr[j] &lt; arr[minIdx]) minIdx = j;<br>    &#125;<br>    <span class="hljs-comment">// 交换i 和 minIdx 的数据</span><br>    <span class="hljs-keyword">let</span> temp = arr[i];<br>    arr[i] = arr[minIdx];<br>    arr[minIdx] = temp;<br>  &#125;<br>  <span class="hljs-keyword">return</span> arr;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>显而易见，时间复杂度还是<code>O(N^2)</code>，空间复杂度也是<code>O(1)</code>，另外选择排序是不稳定的，举个例子:<code>[3,2,3,1,5]</code>，在第一遍的时候第一个 3 和 1 交换，已经破坏了排序的稳定性。</p>
+<p>选择排序符合一般人的第一想法，但是奈何效率不高还不稳定。</p>
+<h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><p>当我们斗地主抽牌的时候，我们往往一张一张抽，把抽到的牌插到已有手牌的合适位置，这就是插入排序的思想。下面我们来实现一下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">insertSort</span>(<span class="hljs-params">arr</span>) &#123;<br>  <span class="hljs-keyword">let</span> target = <span class="hljs-number">0</span>,<br>    nextIdx = <span class="hljs-number">0</span>;<br>  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>; i &lt; arr.<span class="hljs-property">length</span>; ++i) &#123;<br>    target = arr[i];<br>    nextIdx = i - <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">while</span> (nextIdx &gt;= <span class="hljs-number">0</span> &amp;&amp; arr[nextIdx] &gt; target) &#123;<br>      arr[nextIdx + <span class="hljs-number">1</span>] = arr[nextIdx];<br>      --nextIdx;<br>    &#125;<br>    arr[nextIdx + <span class="hljs-number">1</span>] = target;<br>  &#125;<br>  <span class="hljs-keyword">return</span> arr;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>插入排序的时间复杂度也是<code>O(n^2)</code>，空间复杂度也是<code>O(1)</code>，它是一种稳定的排序。看起来和前面的两种一样低效，不过它在特定情况下比前面两种情况快得多，试想下如果数组中绝大部分的数字都已经排好序，时间复杂度会是如何？这是我们发现在向前寻找位置的时候几乎不用遍历，这时候的复杂度趋近<code>O(N)</code>，非常高效。</p>
+<p>总体来说插入排序虽在一般情况下效率不高(但也强于前两种)，但是在特殊情况下还是可以派上用场的。</p>
+<h3 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h3><p>人们发现插入排序在数据基本排好序的时候效率极高，那么有人就说了我们能不能大概先给数据排个序，然后再用插入排序？希尔排序就这么产生了。</p>
+<p>由于插入排序只能相邻的元素移动，所以如果有个元素要从数组结尾移动到数组开头就很耗费时间，希尔排序提出一个概念：如果数组中任意间隔为 h 的数据都是有序的，则称这个数组为<code>h有序数组</code>，当 h 为 1 的时候，数组就排好序了。这样在 h 很大的时候，即使要移动距离很远也可以很快的移动过去，我们多排几遍，让 h 慢慢变小最终变为 1，每次排序都用插入排序，数组越来越有序，排序的性能也越来越高，下面看看代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">shellSort</span>(<span class="hljs-params">arr</span>) &#123;<br>  <span class="hljs-keyword">let</span> h = <span class="hljs-number">1</span>;<br>  <span class="hljs-keyword">while</span> (h &lt; arr.<span class="hljs-property">length</span> / <span class="hljs-number">3</span>) h = <span class="hljs-number">3</span> * h + <span class="hljs-number">1</span>;<br>  <span class="hljs-keyword">while</span> (h &gt;= <span class="hljs-number">1</span>) &#123;<br>    <span class="hljs-keyword">let</span> target = <span class="hljs-number">0</span>,<br>      nextIdx = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = h; i &lt; arr.<span class="hljs-property">length</span>; i += h) &#123;<br>      target = arr[i];<br>      nextIdx = i - h;<br>      <span class="hljs-keyword">while</span> (nextIdx &gt;= <span class="hljs-number">0</span> &amp;&amp; arr[nextIdx] &gt; target) &#123;<br>        arr[nextIdx + h] = arr[nextIdx];<br>        nextIdx -= h;<br>      &#125;<br>      arr[nextIdx + h] = target;<br>    &#125;<br>    h = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(h / <span class="hljs-number">3</span>);<br>  &#125;<br>  <span class="hljs-keyword">return</span> arr;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>明显能看出来，希尔排序的写法是基于插入排序的，我这里 h 的设置方法是比较常用的。希尔排序是个很神奇的排序，因为他仅仅比插入排序多加了个<code>h有序数组</code>的概念，性能就可以达到插入排序的很多倍。至今专家们也没找到一个 h 数列使性能最大化，但是无论如何都是比插入排序快很多的，小于<code>O(N^2)</code>，空间复杂度上来讲还是<code>O(1)</code>，唯一比插入排序差的就是它不稳定。</p>
+<p>总结一下，希尔排序在插入排序的基础上大大优化了性能，虽然比不上快排、堆排等算法，但胜在编写简单，性能可接受。(虽然还是用不上)</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上便是冒泡、选择、插入、希尔的基本思想和简单实现，这几种排序都被称为初级排序算法，效率并不高，在<code>排序算法[下]</code>中我们将深入了解几种高级算法，敬请期待…</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blog/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" class="category-chain-item">数据结构与算法</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/blog/tags/%E7%AE%97%E6%B3%95/">#算法</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>排序算法[上]</div>
+      <div>https://sakilawaw.github.io/blog/2020/02/11/数据结构与算法/2020-02-11-sort-part-one/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Raiden</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年2月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2020/02/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/2020-02-12-sort-part-two/" title="排序算法[下]">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">排序算法[下]</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2020/02/10/2020-02-10-Nextjs/" title="Next.js">
+                        <span class="hidden-mobile">Next.js</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/events.js" ></script>
+<script  src="/blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blog/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

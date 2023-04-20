@@ -1,0 +1,820 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/fluid.png">
+  <link rel="icon" href="/blog/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Raiden">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="上篇文章讲述了几种初级排序算法的思想和实现方法，这篇文章我们深入一些，讲一讲归并、快速和堆这三种排序，直接进入正题。 归并排序顾名思义归并排序的核心操作就是“归并操作”:把两个有序数组合并成一个更大的有序数组。原理是这样的：两个数组 A，B 并排放好，都从第一个数开始看，假如 A 的第一个数比较小，就把他拿出来放到新数组的第一个，然后 A 取第二个数和 B 比，反之亦然。 我们从 A，B 都只有一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="排序算法[下]">
+<meta property="og:url" content="https://sakilawaw.github.io/blog/2020/02/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/2020-02-12-sort-part-two/index.html">
+<meta property="og:site_name" content="鲱鱼罐头大吃两碗">
+<meta property="og:description" content="上篇文章讲述了几种初级排序算法的思想和实现方法，这篇文章我们深入一些，讲一讲归并、快速和堆这三种排序，直接进入正题。 归并排序顾名思义归并排序的核心操作就是“归并操作”:把两个有序数组合并成一个更大的有序数组。原理是这样的：两个数组 A，B 并排放好，都从第一个数开始看，假如 A 的第一个数比较小，就把他拿出来放到新数组的第一个，然后 A 取第二个数和 B 比，反之亦然。 我们从 A，B 都只有一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://sakilawaw.github.io/blog/images/sort-part-two-banner.jpg">
+<meta property="article:published_time" content="2020-02-12T07:27:41.000Z">
+<meta property="article:modified_time" content="2023-04-20T06:30:07.542Z">
+<meta property="article:author" content="Raiden">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://sakilawaw.github.io/blog/images/sort-part-two-banner.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>排序算法[下] - 鲱鱼罐头大吃两碗</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sakilawaw.github.io","root":"/blog/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/blog/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blog/js/utils.js" ></script>
+  <script  src="/blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blog/">
+      <strong>鲱鱼罐头大吃两碗</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blog/images/sort-part-two-banner.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="排序算法[下]"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-02-12 07:27" pubdate>
+          2020年2月12日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          38 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">排序算法[下]</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>上篇文章讲述了几种初级排序算法的思想和实现方法，这篇文章我们深入一些，讲一讲归并、快速和堆这三种排序，直接进入正题。</p>
+<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p>顾名思义归并排序的核心操作就是“归并操作”:把两个有序数组合并成一个更大的有序数组。原理是这样的：两个数组 A，B 并排放好，都从第一个数开始看，假如 A 的第一个数比较小，就把他拿出来放到新数组的第一个，然后 A 取第二个数和 B 比，反之亦然。</p>
+<p>我们从 A，B 都只有一个数据开始归并，慢慢的把所有数据归并成一个大的有序数列。思路理清了，来看代码:</p>
+<p>先看一步归并的代码:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> tempArr = []; <span class="hljs-comment">// 写成全局的可以节省空间</span><br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">merge</span>(<span class="hljs-params">arr, lo, mid, hi</span>) &#123;<br>  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> m = lo; m &lt;= hi; ++m) &#123;<br>    <span class="hljs-comment">// arr[lo,...hi]=&gt;tempArr[lo, ...hi]</span><br>    tempArr[m] = arr[m];<br>  &#125;<br>  <span class="hljs-keyword">let</span> i = lo;<br>  <span class="hljs-keyword">let</span> j = mid + <span class="hljs-number">1</span>;<br>  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> n = lo; n &lt;= hi; ++n) &#123;<br>    <span class="hljs-keyword">if</span> (i &gt; mid) arr[n] = tempArr[j++];<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (j &gt; hi) arr[n] = tempArr[i++];<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (tempArr[i] &lt;= tempArr[j]) arr[n] = tempArr[i++];<br>    <span class="hljs-keyword">else</span> arr[n] = tempArr[j++];<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码可以将数组的前后两部分进行归并，可以看到代码中现将数组复制出来，然后再按顺序放入原数组中，这么做可以降低算法的空间复杂度。</p>
+<p>一步归并不能将整个数组排序，我们要做的是现将子数组一一归并，然后慢慢扩大直到整个数组，这种思想叫做<code>分治法</code>，分而治之，先将数组分开，然后把小数组一步步归并成大数组，典型的实现是通过递归。先看代码:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">mergeSort</span>(<span class="hljs-params">arr, start, end</span>) &#123;<br>  <span class="hljs-keyword">if</span> (end &lt;= start) <span class="hljs-keyword">return</span>;<br>  <span class="hljs-keyword">const</span> mid = start + <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>((end - start) / <span class="hljs-number">2</span>);<br>  <span class="hljs-title function_">mergeSort</span>(arr, start, mid);<br>  <span class="hljs-title function_">mergeSort</span>(arr, mid + <span class="hljs-number">1</span>, end);<br>  <span class="hljs-title function_">merge</span>(arr, start, mid, end);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这种方式是自顶向下的，但是我们知道递归往往存在性能问题，所以还有一种自下向上的归并方式，就是用循环来做归并，看代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">iTermergeSort</span>(<span class="hljs-params">arr</span>) &#123;<br>  <span class="hljs-keyword">const</span> N = arr.<span class="hljs-property">length</span>;<br><br>  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> size = <span class="hljs-number">1</span>; size &lt; N; size *= <span class="hljs-number">2</span>) &#123;<br>    <span class="hljs-comment">// 一个子数组长度</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> start = <span class="hljs-number">0</span>; start &lt; N - size; start += size + size) &#123;<br>      <span class="hljs-comment">// [1,2]、[3，4]...</span><br>      <span class="hljs-title function_">merge</span>(<br>        arr,<br>        start,<br>        start + size - <span class="hljs-number">1</span>,<br>        <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">min</span>(N - <span class="hljs-number">1</span>, start + <span class="hljs-number">2</span> * size - <span class="hljs-number">1</span>)<br>      );<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>使用迭代的方法比较直接，没有递归那么绕，调整子数组大小，计算出起始与结束还有中间分界的位置就可以了。</p>
+<p>下面总结一下归并排序的效率，由于我们用了分治法，归并排序的效率降到了<code>O(NlogN)</code>，比之前的算法都提高了，但美中不足的是他的空间复杂度是<code>O(N)</code>，在我们的实现中归并排序是稳定的，因为当两个数相等时我们取得是前面的数。</p>
+<p>总体来说归并排序除了空间复杂度不是最优的之外性能已经算很好了，而且最重要的是它用了一种分治法的思想，这种思考方式在别的算法中也经常用到。</p>
+<h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p>终于到了快速排序出场的时候了，快排由于编写简单，性能非常高，常用于各种情境之下，让我们一起来看看这个传奇算法。</p>
+<p>快排的思想也是分治法：首先选中一个中间数，将比它小的数字放到其左边，比他大的放到其右边，这是一次处理。然后分别对左右两侧的数列进行相同的处理，处理到最后整个数组就有序了。下面来看代码，我们先写整体的分治逻辑：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">quickSort</span>(<span class="hljs-params">arr, lo, hi</span>) &#123;<br>  <span class="hljs-keyword">if</span> (hi &lt;= lo) <span class="hljs-keyword">return</span>;<br>  <span class="hljs-keyword">const</span> splitIdx = <span class="hljs-title function_">group</span>(arr, lo, hi);<br>  <span class="hljs-title function_">quickSort</span>(arr, lo, splitIdx);<br>  <span class="hljs-title function_">quickSort</span>(arr, splitIdx + <span class="hljs-number">1</span>, hi);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>由于数组两个位置的交换操作很多，我们封装下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">swap</span>(<span class="hljs-params">arr, idx1, idx2</span>) &#123;<br>  <span class="hljs-keyword">let</span> temp = arr[idx1];<br>  arr[idx1] = arr[idx2];<br>  arr[idx2] = temp;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>然后是每次分组逻辑：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">group</span>(<span class="hljs-params">arr, lo, hi</span>) &#123;<br>  <span class="hljs-keyword">let</span> i = lo;<br>  <span class="hljs-keyword">let</span> j = hi + <span class="hljs-number">1</span>;<br>  <span class="hljs-keyword">const</span> splitVal = arr[lo]; <span class="hljs-comment">// 取第一个数当中间数</span><br>  <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;<br>    <span class="hljs-keyword">while</span> (arr[++i] &lt;= splitVal) <span class="hljs-keyword">if</span> (i === hi) <span class="hljs-keyword">break</span>;<br>    <span class="hljs-keyword">while</span> (arr[--j] &gt;= splitVal) <span class="hljs-keyword">if</span> (j == lo) <span class="hljs-keyword">break</span>;<br>    <span class="hljs-keyword">if</span> (i &gt;= j) <span class="hljs-keyword">break</span>;<br>    <span class="hljs-title function_">swap</span>(arr, i, j);<br>  &#125;<br>  <span class="hljs-title function_">swap</span>(arr, lo, j);<br>  <span class="hljs-keyword">return</span> j;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>快速排序的时间复杂度是<code>O(NlogN)</code>，空间复杂度是<code>O(logN)</code>，不过当数组基本倒序的时候每一次移动指针都要交换，相当于变相的冒泡排序了，这时时间复杂度为<code>O(N^2)</code>，所以我们要通过方法防止快排退化成冒泡，我打算有时间再出一篇新文章深入探讨下这个问题。</p>
+<p>综合来看，快速排序及其变型性能很不错，可以大量用于各种情境下，jdk 封装的排序就是用的 DualPivotQuicksort，就是快排的一个变体。</p>
+<h2 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h2><h3 id="优先队列"><a href="#优先队列" class="headerlink" title="优先队列"></a>优先队列</h3><p>在了解堆排序之前，我们先想像这么一个业务场景：</p>
+<blockquote>
+<p>有个任务队列，需要做的操作有两个：加入任务和取出到最高优先级的任务。</p>
+</blockquote>
+<p>这个场景在工作中非常常见，我们称之为优先队列，思考下如何设计算法。我们可能会这么做：在插入的时按顺序插入，取出的时候按照选择排序的思想遍历取最大。或者在插入的时候就按大小插入，取出的时候按顺序取，这是插入排序的思想。两种方式的复杂度如下：</p>
+<table>
+<thead>
+<tr>
+<th>算法</th>
+<th>插入复杂度</th>
+<th>取出复杂度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>插入排序思想</td>
+<td>O(N)</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>选择排序思想</td>
+<td>O(1)</td>
+<td>O(N)</td>
+</tr>
+</tbody></table>
+<p>这两种方式都可行，但是有一步都是<code>O(N)</code>级别的，在 N 很大的时候效率不高。有人就提出了一种新的思想，运用堆这种数据结构来完成这个过程，以提高效率。</p>
+<h3 id="什么是堆"><a href="#什么是堆" class="headerlink" title="什么是堆"></a>什么是堆</h3><p>堆是一种数据结构，通常情况下我们说的是二叉堆，它满足一下特点：</p>
+<ol>
+<li>它是一棵<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%AE%8C%E5%85%A8%E4%BA%8C%E5%8F%89%E6%A0%91/7773232?fr=aladdin">完全二叉树</a></li>
+<li>任意父节点的值大于或小于子节点(大顶堆和小顶堆)</li>
+</ol>
+<p><img src="/blog/images/%E5%A4%A7%E9%A1%B6%E5%A0%86%E5%88%9D%E5%A7%8B.png" srcset="/blog/img/loading.gif" lazyload alt="大顶堆"></p>
+<p>这就是一个典型的大顶堆，我们在代码中为了节省空间，通常用一个数组来表示它，为了方便计算，我们把下标为 0 的位置空出来，如果一个节点的下标是 m，那么他的父节点就是<code>m/2</code>，子节点就是<code>2k</code>和<code>2k+1</code>，这样就可以很好地模拟堆的各种操作。</p>
+<p>我们来看看这个时候插入和取出的效率如何。当我们取最大数的时候，我们可以直接取走根节点 9，然后将末节点 4 放到根节点的位置，之后只要调整 4 到合适的位置就行了，这个调整操作我们可以称之为下沉，交换之后如下图：</p>
+<p><img src="/blog/images/%E5%A4%A7%E9%A1%B6%E5%A0%86%E4%B8%8B%E6%B2%89.png" srcset="/blog/img/loading.gif" lazyload alt="大顶堆堆下沉"></p>
+<p>下沉的逻辑是：将要调整的节点和两个子节点比较，取出一个最大的交换，如果父节点本身最大就停下，如果不是就交换到相应子节点位置，然后继续以这个位置为父节点调整。如图：</p>
+<p><img src="/blog/images/%E5%A4%A7%E9%A1%B6%E5%A0%86%E4%B8%8B%E6%B2%89%E8%B0%83%E6%95%B4.png" srcset="/blog/img/loading.gif" lazyload alt="大顶堆下沉调整"></p>
+<p>其中标红的是下沉的路径，我们来实现一下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">sink</span>(<span class="hljs-params">arr, i, N</span>) &#123;<br>  <span class="hljs-keyword">while</span> (i * <span class="hljs-number">2</span> &lt;= N) &#123;<br>    <span class="hljs-comment">// 非叶节点</span><br>    <span class="hljs-keyword">let</span> j = <span class="hljs-number">2</span> * i;<br>    <span class="hljs-keyword">if</span> (j &lt; N &amp;&amp; arr[j + <span class="hljs-number">1</span>] &gt; arr[j]) j += <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">if</span> (arr[i] &gt; arr[j]) <span class="hljs-keyword">break</span>; <span class="hljs-comment">// 父节点最大时停止下沉</span><br>    <span class="hljs-title function_">swap</span>(arr, i, j);<br>    i = j;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们可以算出来下沉一个节点所需的时间复杂度最大为<code>O(logN)</code>(沉到底)，当 N 很大的时候速度快了非常多。</p>
+<p>再看插入的效率如何，插入时直接把数据放到末尾，然后将节点上浮到合适的位置。与下沉的道理差不多。</p>
+<p><img src="/blog/images/%E5%A4%A7%E9%A1%B6%E5%A0%86%E4%B8%8A%E6%B5%AE%E8%B0%83%E6%95%B4.png" srcset="/blog/img/loading.gif" lazyload alt="大顶堆上浮调整"></p>
+<p>比如我们新加入一个数字 9，红色路径就是调整路径，原理比较简单，直接看代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">swim</span>(<span class="hljs-params">arr, i</span>) &#123;<br>  <span class="hljs-keyword">while</span> (i &gt; <span class="hljs-number">1</span> &amp;&amp; arr[i] &gt; arr[<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(i / <span class="hljs-number">2</span>)]) &#123;<br>    <span class="hljs-title function_">swap</span>(arr, i, <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(i / <span class="hljs-number">2</span>));<br>    i = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(i / <span class="hljs-number">2</span>);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>逻辑比下潜还简单，因为子节点之间不用比较，我们掐指一算发现最大时间复杂度还是<code>O(logN)</code>，可见在优先队列中，如果 N 比较大，使用堆的方式构建优势很大。</p>
+<h3 id="优先队列和堆排序"><a href="#优先队列和堆排序" class="headerlink" title="优先队列和堆排序"></a>优先队列和堆排序</h3><p>说到这我们已经把堆讲明白了，下面我们把它用到排序上，聪明的同学可能已经想到如何写了：</p>
+<ol>
+<li>把数组构建成一个堆(我们假设从小到大排，构建大顶堆)。</li>
+<li>取出第一个数与最后一个交换，最大的数就被安排到最后一个了。</li>
+<li>下沉第一个数(最后一个数不参与，因为它已经有序了)。</li>
+<li>重复 2，3 步骤直到所有数都有序。</li>
+</ol>
+<p>代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">heapSort</span>(<span class="hljs-params">arr</span>) &#123;<br>  <span class="hljs-keyword">let</span> N = arr.<span class="hljs-property">length</span> - <span class="hljs-number">1</span>;<br>  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(N / <span class="hljs-number">2</span>); i &gt; <span class="hljs-number">0</span>; --i) &#123;<br>    <span class="hljs-comment">// 构建堆</span><br>    <span class="hljs-title function_">sink</span>(arr, i, N);<br>  &#125;<br>  <span class="hljs-keyword">while</span> (N &gt; <span class="hljs-number">1</span>) &#123;<br>    <span class="hljs-comment">// 不断弹出第一个</span><br>    <span class="hljs-title function_">swap</span>(arr, <span class="hljs-number">1</span>, N--);<br>    <span class="hljs-title function_">sink</span>(arr, <span class="hljs-number">1</span>, N);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>取所有数的过程复杂度为<code>O(NlogN)</code>，构建堆的过程可以从后往前对每个数依次做上浮，这其实也是一种分治的思想(分治思想无处不在)，先将子树变为堆，然后将多个子树放在一起变为新堆，构建堆需要的操作数计算起来比较复杂 😓，这里直接给出结论吧，是<code>O(N)</code>。所以加起来还是<code>O(NlogN)</code>的复杂度。</p>
+<p>堆排序的的算法写起来非常简单，性能也很高，空间复杂度为<code>O(1)</code>，除了不稳定之外没什么明显缺点，简直是宝藏算法。堆的用法很多，不仅仅可以用于排序，而且我写的基础班堆排序也有可以优化的地方，我打算日后和快速排序一起写一篇新文章。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实还有一些排序，比如桶排序，基数排序等，这里先不做研究了，最后的最后给出各个算法的性能分析表吧：</p>
+<table>
+<thead>
+<tr>
+<th>算法</th>
+<th>稳定性</th>
+<th>是否原地排序</th>
+<th>时间复杂度</th>
+<th>空间复杂度</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>冒泡排序</td>
+<td>√</td>
+<td>√</td>
+<td>N^2</td>
+<td>1</td>
+<td></td>
+</tr>
+<tr>
+<td>选择排序</td>
+<td>×</td>
+<td>√</td>
+<td>N^2</td>
+<td>1</td>
+<td></td>
+</tr>
+<tr>
+<td>插入排序</td>
+<td>√</td>
+<td>√</td>
+<td>N ~ N^2</td>
+<td>1</td>
+<td>基本有序时效率高</td>
+</tr>
+<tr>
+<td>希尔排序</td>
+<td>×</td>
+<td>√</td>
+<td>N ~ N^2</td>
+<td>1</td>
+<td></td>
+</tr>
+<tr>
+<td>快速排序</td>
+<td>×</td>
+<td>√</td>
+<td>NlogN</td>
+<td>lgN</td>
+<td>三项切分时效率接近线性</td>
+</tr>
+<tr>
+<td>归并排序</td>
+<td>√</td>
+<td>×</td>
+<td>NlogN</td>
+<td>N</td>
+<td></td>
+</tr>
+<tr>
+<td>堆排序</td>
+<td>×</td>
+<td>√</td>
+<td>NlogN</td>
+<td>1</td>
+<td>取前几个最大的数时用堆的思想</td>
+</tr>
+</tbody></table>
+<p>That’s all.</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blog/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" class="category-chain-item">数据结构与算法</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/blog/tags/%E7%AE%97%E6%B3%95/">#算法</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>排序算法[下]</div>
+      <div>https://sakilawaw.github.io/blog/2020/02/12/数据结构与算法/2020-02-12-sort-part-two/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Raiden</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年2月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2020/04/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/2020-04-10-%E5%9B%BE%E7%9A%84%E9%81%8D%E5%8E%86/" title="图的遍历">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">图的遍历</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2020/02/11/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/2020-02-11-sort-part-one/" title="排序算法[上]">
+                        <span class="hidden-mobile">排序算法[上]</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/events.js" ></script>
+<script  src="/blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blog/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
