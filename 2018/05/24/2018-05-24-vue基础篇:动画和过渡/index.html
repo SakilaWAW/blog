@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
-  <link rel="icon" href="/img/fluid.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/fluid.png">
+  <link rel="icon" href="/blog/img/fluid.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -19,18 +19,18 @@
     <meta name="description" content="一、前言动态效果是可以大幅度提高网站美观度的，vue 当然也进行了相应的封装。下面总结一下这些效果的用法。 二、过渡过渡是可以在元素创建、删除、更新时(v-if、v-show)附加上的动态效果。 1. 基本用法12345&lt;div&gt;  &lt;transition name&#x3D;&quot;test&quot;&gt;    &lt;div v-if&#x3D;&quot;isDisplay&amp;quot">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vue基础篇:动画和过渡">
-<meta property="og:url" content="https://sakilawaw.github.io/2018/05/24/2018-05-24-vue%E5%9F%BA%E7%A1%80%E7%AF%87:%E5%8A%A8%E7%94%BB%E5%92%8C%E8%BF%87%E6%B8%A1/index.html">
+<meta property="og:url" content="https://sakilawaw.github.io/blog/2018/05/24/2018-05-24-vue%E5%9F%BA%E7%A1%80%E7%AF%87:%E5%8A%A8%E7%94%BB%E5%92%8C%E8%BF%87%E6%B8%A1/index.html">
 <meta property="og:site_name" content="鲱鱼罐头大吃两碗">
 <meta property="og:description" content="一、前言动态效果是可以大幅度提高网站美观度的，vue 当然也进行了相应的封装。下面总结一下这些效果的用法。 二、过渡过渡是可以在元素创建、删除、更新时(v-if、v-show)附加上的动态效果。 1. 基本用法12345&lt;div&gt;  &lt;transition name&#x3D;&quot;test&quot;&gt;    &lt;div v-if&#x3D;&quot;isDisplay&amp;quot">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://sakilawaw.github.io/images/vue-base-animation-transition-banner.jpg">
+<meta property="og:image" content="https://sakilawaw.github.io/blog/images/vue-base-animation-transition-banner.jpg">
 <meta property="article:published_time" content="2018-05-24T10:22:04.000Z">
-<meta property="article:modified_time" content="2023-04-20T06:35:32.950Z">
+<meta property="article:modified_time" content="2023-04-20T06:39:53.363Z">
 <meta property="article:author" content="Raiden">
 <meta property="article:tag" content="javascript">
 <meta property="article:tag" content="vue">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://sakilawaw.github.io/images/vue-base-animation-transition-banner.jpg">
+<meta name="twitter:image" content="https://sakilawaw.github.io/blog/images/vue-base-animation-transition-banner.jpg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -60,12 +60,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/css/main.css" />
+<link  rel="stylesheet" href="/blog/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
   
 
 
@@ -74,15 +74,15 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"sakilawaw.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"sakilawaw.github.io","root":"/blog/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/blog/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
+  <script  src="/blog/js/utils.js" ></script>
+  <script  src="/blog/js/color-schema.js" ></script>
   
 
 
@@ -99,7 +99,7 @@
 <div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" href="/blog/">
       <strong>鲱鱼罐头大吃两碗</strong>
     </a>
 
@@ -118,7 +118,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/">
+              <a class="nav-link" href="/blog/">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -130,7 +130,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/archives/">
+              <a class="nav-link" href="/blog/archives/">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -142,7 +142,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/categories/">
+              <a class="nav-link" href="/blog/categories/">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -154,7 +154,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/tags/">
+              <a class="nav-link" href="/blog/tags/">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -184,7 +184,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/images/vue-base-animation-transition-banner.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('/blog/images/vue-base-animation-transition-banner.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -273,7 +273,7 @@
 
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.test-enter-active</span>,<br><span class="hljs-selector-class">.test-leave-active</span> &#123;<br>  <span class="hljs-attribute">transition</span>: opacity <span class="hljs-number">0.5s</span>;<br>&#125;<br><span class="hljs-selector-class">.test-enter</span>,<br><span class="hljs-selector-class">.test-leave-to</span> &#123;<br>  <span class="hljs-attribute">opacity</span>: <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>基本原理是 vue 引擎在侦测到 transition 组件存在的时候，会在恰当的时机对目标元素插入 css 类，插入的类总体有六个，示意图如下(按照添加顺序排列)，六个类的第一个单词应替换为 transition 组件中的 name：<br><img src="https://cn.vuejs.org/images/transition.png" srcset="/img/loading.gif" lazyload alt="过渡的css类加载流程"></p>
+<p>基本原理是 vue 引擎在侦测到 transition 组件存在的时候，会在恰当的时机对目标元素插入 css 类，插入的类总体有六个，示意图如下(按照添加顺序排列)，六个类的第一个单词应替换为 transition 组件中的 name：<br><img src="https://cn.vuejs.org/images/transition.png" srcset="/blog/img/loading.gif" lazyload alt="过渡的css类加载流程"></p>
 <p>通过在 transition 属性中自定义过渡类别和持续时间，我们可以实现很丰富的动态效果。</p>
 <h4 id="三、动画"><a href="#三、动画" class="headerlink" title="三、动画"></a>三、动画</h4><p>将过渡的用法稍微改变一下:在 css 代码中将 transition 替换为 animation+keyframes，就可以将 css 中的动画附加到过渡效果中，举个栗子：</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.test-enter-active</span> &#123;<br>  <span class="hljs-attribute">animation</span>: test <span class="hljs-number">0.5s</span>;<br>&#125;<br><span class="hljs-selector-class">.test-leave-active</span> &#123;<br>  <span class="hljs-attribute">animation</span>: test <span class="hljs-number">0.5s</span> reverse;<br>&#125;<br><span class="hljs-keyword">@keyframes</span> test &#123;<br>  <span class="hljs-number">20%</span> &#123;<br>    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateX</span>(<span class="hljs-number">50px</span>);<br>  &#125;<br>  <span class="hljs-number">40%</span> &#123;<br>    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateY</span>(<span class="hljs-number">50px</span>);<br>  &#125;<br>  <span class="hljs-number">60%</span> &#123;<br>    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateX</span>(-<span class="hljs-number">50px</span>);<br>  &#125;<br>  <span class="hljs-number">80%</span> &#123;<br>    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateY</span>(-<span class="hljs-number">50px</span>);<br>  &#125;<br>  <span class="hljs-number">100%</span> &#123;<br>    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateX</span>(<span class="hljs-number">50px</span>);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -307,7 +307,7 @@
 <blockquote>
 <p>顺带一提，el.dataset.index 的方式可以从 el 元素上提取附带的数据。html 中的写法是<code>&lt;x data-index=&quot;&quot;&gt;&lt;/x&gt;</code>,这是 html 规范，并不是 vuejs 中定义的内容。</p>
 </blockquote>
-<h4 id="八、总结"><a href="#八、总结" class="headerlink" title="八、总结"></a>八、总结</h4><p>vue 过渡的用法封装的简单明了，最后附上导图以便理清思路:<br><img src="https://i.loli.net/2018/05/24/5b06699797362.png" srcset="/img/loading.gif" lazyload alt="Vue过渡与动画导图.png"></p>
+<h4 id="八、总结"><a href="#八、总结" class="headerlink" title="八、总结"></a>八、总结</h4><p>vue 过渡的用法封装的简单明了，最后附上导图以便理清思路:<br><img src="https://i.loli.net/2018/05/24/5b06699797362.png" srcset="/blog/img/loading.gif" lazyload alt="Vue过渡与动画导图.png"></p>
 
                 
               </div>
@@ -326,7 +326,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/javascript%E6%A1%86%E6%9E%B6/" class="category-chain-item">javascript框架</a>
+  <a href="/blog/categories/javascript%E6%A1%86%E6%9E%B6/" class="category-chain-item">javascript框架</a>
   
   
 
@@ -341,9 +341,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/javascript/">#javascript</a>
+        <a href="/blog/tags/javascript/">#javascript</a>
       
-        <a href="/tags/vue/">#vue</a>
+        <a href="/blog/tags/vue/">#vue</a>
       
     </div>
   
@@ -356,7 +356,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>vue基础篇:动画和过渡</div>
-      <div>https://sakilawaw.github.io/2018/05/24/2018-05-24-vue基础篇:动画和过渡/</div>
+      <div>https://sakilawaw.github.io/blog/2018/05/24/2018-05-24-vue基础篇:动画和过渡/</div>
     </div>
     <div class="license-meta">
       
@@ -400,7 +400,7 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2018/05/27/2018-05-27-%5B%E8%AF%91%5D%E7%AE%80%E6%98%8E%E6%98%93%E6%87%82javascript%E9%97%AD%E5%8C%85/" title="[译]简明易懂javascript闭包">
+                      <a href="/blog/2018/05/27/2018-05-27-%5B%E8%AF%91%5D%E7%AE%80%E6%98%8E%E6%98%93%E6%87%82javascript%E9%97%AD%E5%8C%85/" title="[译]简明易懂javascript闭包">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">[译]简明易懂javascript闭包</span>
                         <span class="visible-mobile">上一篇</span>
@@ -558,8 +558,8 @@
 
 <script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
+<script  src="/blog/js/events.js" ></script>
+<script  src="/blog/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -581,7 +581,7 @@
 
 
   
-    <script  src="/js/img-lazyload.js" ></script>
+    <script  src="/blog/js/img-lazyload.js" ></script>
   
 
 
@@ -680,7 +680,7 @@
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/js/local-search.js" ></script>
+  <script  src="/blog/js/local-search.js" ></script>
 
   <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
@@ -690,7 +690,7 @@
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
+<script  src="/blog/js/boot.js" ></script>
 
 
   
