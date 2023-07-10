@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@adobe/css-tools@^4.0.1":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@adobe/css-tools/-/css-tools-4.2.0.tgz#e1a84fca468f4b337816fcb7f0964beb620ba855"
+
 "@tootallnate/once@2":
   version "2.0.0"
   resolved "https://registry.npmmirror.com/@tootallnate/once/-/once-2.0.0.tgz"
@@ -581,6 +585,12 @@ hexo-renderer-ejs@^2.0.0:
   dependencies:
     ejs "^3.1.6"
 
+hexo-renderer-stylus@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/hexo-renderer-stylus/-/hexo-renderer-stylus-3.0.0.tgz#6d5d8678c327e68aef213b41a9e7fcf0527ccd51"
+  dependencies:
+    nib "^1.2.0"
+    stylus "^0.59.0"
 hexo-renderer-marked@^6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/hexo-renderer-marked/-/hexo-renderer-marked-6.1.0.tgz#c76c69e586f3446b40e972e41bfe8d6fd7618211"
@@ -589,13 +599,6 @@ hexo-renderer-marked@^6.1.0:
     hexo-util "^3.0.1"
     jsdom "^20.0.1"
     marked "^4.3.0"
-
-hexo-renderer-stylus@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npmmirror.com/hexo-renderer-stylus/-/hexo-renderer-stylus-2.1.0.tgz"
-  dependencies:
-    nib "^1.2.0"
-    stylus "^0.57.0"
 
 hexo-server@^3.0.0:
   version "3.0.0"
@@ -1231,14 +1234,13 @@ strip-indent@^3.0.0:
   dependencies:
     min-indent "^1.0.0"
 
-stylus@^0.57.0:
-  version "0.57.0"
-  resolved "https://registry.npmmirror.com/stylus/-/stylus-0.57.0.tgz"
+stylus@^0.59.0:
+  version "0.59.0"
+  resolved "https://registry.yarnpkg.com/stylus/-/stylus-0.59.0.tgz#a344d5932787142a141946536d6e24e6a6be7aa6"
   dependencies:
-    css "^3.0.0"
+    "@adobe/css-tools" "^4.0.1"
     debug "^4.3.2"
     glob "^7.1.6"
-    safer-buffer "^2.1.2"
     sax "~1.2.4"
     source-map "^0.7.3"
 
