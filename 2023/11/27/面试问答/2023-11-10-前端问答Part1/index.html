@@ -1,0 +1,948 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/fluid.png">
+  <link rel="icon" href="/blog/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Raiden">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前端工程师面试问题集浏览器技术浏览器的关键进程和线程问题: 请讲讲浏览器有哪些关键的进程和线程。回答:在现代浏览器中，尤其是像Google Chrome这样的浏览器，主要包含以下几种类型的进程和线程：  主进程：负责浏览器界面的显示和交互，处理用户输入、各种事件的派发、子进程的创建和销毁等。它还负责文件的下载和基本的UI展示。  渲染进程：每个浏览器标签通常对应一个渲染进程，负责页面的渲染，包括H">
+<meta property="og:type" content="article">
+<meta property="og:title" content="鲱鱼罐头大吃两碗">
+<meta property="og:url" content="https://sakilawaw.github.io/blog/2023/11/27/%E9%9D%A2%E8%AF%95%E9%97%AE%E7%AD%94/2023-11-10-%E5%89%8D%E7%AB%AF%E9%97%AE%E7%AD%94Part1/index.html">
+<meta property="og:site_name" content="鲱鱼罐头大吃两碗">
+<meta property="og:description" content="前端工程师面试问题集浏览器技术浏览器的关键进程和线程问题: 请讲讲浏览器有哪些关键的进程和线程。回答:在现代浏览器中，尤其是像Google Chrome这样的浏览器，主要包含以下几种类型的进程和线程：  主进程：负责浏览器界面的显示和交互，处理用户输入、各种事件的派发、子进程的创建和销毁等。它还负责文件的下载和基本的UI展示。  渲染进程：每个浏览器标签通常对应一个渲染进程，负责页面的渲染，包括H">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-11-27T13:30:07.769Z">
+<meta property="article:modified_time" content="2023-11-27T13:30:07.769Z">
+<meta property="article:author" content="Raiden">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>鲱鱼罐头大吃两碗</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sakilawaw.github.io","root":"/blog/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/blog/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blog/js/utils.js" ></script>
+  <script  src="/blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blog/">
+      <strong>鲱鱼罐头大吃两碗</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-11-27 13:30" pubdate>
+          2023年11月27日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          77 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前端工程师面试问题集"><a href="#前端工程师面试问题集" class="headerlink" title="前端工程师面试问题集"></a>前端工程师面试问题集</h1><h2 id="浏览器技术"><a href="#浏览器技术" class="headerlink" title="浏览器技术"></a>浏览器技术</h2><h3 id="浏览器的关键进程和线程"><a href="#浏览器的关键进程和线程" class="headerlink" title="浏览器的关键进程和线程"></a>浏览器的关键进程和线程</h3><p><strong>问题</strong>: 请讲讲浏览器有哪些关键的进程和线程。<br><strong>回答</strong>:<br>在现代浏览器中，尤其是像Google Chrome这样的浏览器，主要包含以下几种类型的进程和线程：</p>
+<ol>
+<li><p><strong>主进程</strong>：负责浏览器界面的显示和交互，处理用户输入、各种事件的派发、子进程的创建和销毁等。它还负责文件的下载和基本的UI展示。</p>
+</li>
+<li><p><strong>渲染进程</strong>：每个浏览器标签通常对应一个渲染进程，负责页面的渲染，包括HTML的解析、CSS样式的计算、JS脚本的执行等。在多标签的浏览器中，每个标签页一般都有自己的渲染进程。</p>
+</li>
+<li><p><strong>GPU进程</strong>：用于3D绘制等操作，随着现代网页越来越多地采用CSS动画和WebGL等技术，GPU进程变得越发重要。</p>
+</li>
+<li><p><strong>网络进程</strong>：处理页面的网络资源加载。</p>
+</li>
+<li><p><strong>插件进程</strong>：对于每个插件，浏览器为其创建一个独立的进程。</p>
+</li>
+</ol>
+<p>这些进程相互独立，保证了浏览器的稳定性和安全性。当一个页面崩溃时，它不会影响到浏览器中的其他页面。</p>
+<p>此外，还有一些关键的线程，如：</p>
+<ul>
+<li><strong>GUI渲染线程</strong>：负责渲染浏览器的UI界面。</li>
+<li><strong>JavaScript引擎线程</strong>：用于解析和执行JavaScript代码。</li>
+<li><strong>事件触发线程</strong>：用于控制事件循环，处理事件和执行回调函数。</li>
+<li><strong>定时器触发线程</strong>：负责执行异步的setTimeout和setInterval。</li>
+<li><strong>异步HTTP请求线程</strong>：用于执行异步请求的回调。</li>
+</ul>
+<p>这些线程和进程共同构成了浏览器的基础架构，确保了浏览器的快速、稳定和安全运行。</p>
+<h2 id="Web-API-和-JavaScript"><a href="#Web-API-和-JavaScript" class="headerlink" title="Web API 和 JavaScript"></a>Web API 和 JavaScript</h2><h3 id="RequestAnimationFrame方法和RequestIdleCallback方法"><a href="#RequestAnimationFrame方法和RequestIdleCallback方法" class="headerlink" title="RequestAnimationFrame方法和RequestIdleCallback方法"></a>RequestAnimationFrame方法和RequestIdleCallback方法</h3><p><strong>问题</strong>: 了解RequestAnimationFrame方法和RequestIdleCallback方法吗，讲一讲他们是什么和用途。<br><strong>回答</strong>:<br><code>requestAnimationFrame</code>和<code>requestIdleCallback</code>是现代浏览器提供的两个重要的API，用于优化JavaScript动画和背景任务的性能。</p>
+<ul>
+<li><p><strong>requestAnimationFrame</strong>:</p>
+<ul>
+<li><code>requestAnimationFrame</code>主要用于优化动画的性能。传统的使用<code>setTimeout</code>或<code>setInterval</code>方法的动画可能会导致动画不流畅或过度绘制，而<code>requestAnimationFrame</code>提供了一种更高效的方式来请求浏览器在下次重绘前执行动画更新。</li>
+<li>它与浏览器的刷新率同步，可以在浏览器绘制的每一帧中运行动画，从而确保动画的流畅性和高效性。</li>
+</ul>
+</li>
+<li><p><strong>requestIdleCallback</strong>:</p>
+<ul>
+<li><code>requestIdleCallback</code>则用于在浏览器的空闲时段内调用函数，以便不影响关键事件和动画的响应能力。</li>
+<li>它允许开发者在浏览器空闲时执行低优先级或不急迫的任务，如数据预取、分析和背景日志记录等。</li>
+<li>这有助于改善页面的性能，尤其是在复杂或资源密集型应用中，可以在不影响用户体验的情况下完成必要的背景工作。</li>
+</ul>
+</li>
+</ul>
+<p>这两个API在现代Web开发中越来越重要，它们帮助开发者更有效地利用浏览器的能力来提高应用性能和用户体验。</p>
+<h2 id="HTTP-和网络"><a href="#HTTP-和网络" class="headerlink" title="HTTP 和网络"></a>HTTP 和网络</h2><h3 id="常见的Http头字段及其用途"><a href="#常见的Http头字段及其用途" class="headerlink" title="常见的Http头字段及其用途"></a>常见的Http头字段及其用途</h3><p><strong>问题</strong>: 举几个常见的Http头字段，他们分别有什么用途。<br><strong>回答</strong>:<br>在HTTP通信中，头字段用于传递关于请求和响应的额外信息。常见的HTTP头字段包括：</p>
+<ul>
+<li><strong>Content-Type</strong>: 指示资源的MIME类型，如<code>text/html</code>、<code>application/json</code>等。</li>
+<li><strong>Content-Length</strong>: 表示响应体的长度。</li>
+<li><strong>User-Agent</strong>: 包含有关发起请求的客户端信息，如浏览器类型和版本。</li>
+<li><strong>Cookie</strong>: 从服务器发送到客户端并存储在客户端的小数据片段，用于状态管理。</li>
+<li><strong>Set-Cookie</strong>: 由服务器发送，告诉客户端设置一个Cookie。</li>
+<li><strong>Accept</strong>: 表示客户端可以处理的内容类型。</li>
+<li><strong>Authorization</strong>: 包含用于认证的凭据信息，通常用于验证请求。</li>
+<li><strong>Cache-Control</strong>: 指示缓存行为的指令。</li>
+<li><strong>Host</strong>: 指定请求的服务器的域名和端口号。</li>
+<li><strong>Referer</strong>: 表示请求发起的源页面地址。</li>
+<li><strong>Accept-Encoding</strong>: 表示客户端支持的内容编码，如gzip。</li>
+<li><strong>Connection</strong>: 控制客户端和服务器之间的连接管理。</li>
+</ul>
+<p>这些头字段在HTTP请求和响应中起着至关重要的作用，它们影响着资源的加载方式、性能优化、安全策略、用户验证等方面。</p>
+<h3 id="Cookie常用的字段"><a href="#Cookie常用的字段" class="headerlink" title="Cookie常用的字段"></a>Cookie常用的字段</h3><p><strong>问题</strong>: 你提到了cookie，我们知道cookie常用于身份验证，举几个cookie常用的字段的例子。<br><strong>回答</strong>:<br>Cookie是由服务器发送到用户浏览器并存储的小数据片段，用于状态管理和用户跟踪。常见的Cookie字段包括：</p>
+<ul>
+<li><strong>Name</strong>: Cookie的名称。</li>
+<li><strong>Value</strong>: 与Cookie名称关联的值。</li>
+<li><strong>Expires&#x2F;Max-Age</strong>: 定义Cookie的有效期。Expires设置一个过期日期，Max-Age设置Cookie存在的秒数。</li>
+<li><strong>Domain</strong>: 指定哪些域可以接收Cookie。如果未指定，默认为发起请求的域。</li>
+<li><strong>Path</strong>: 指定与Cookie关联的网页路径。</li>
+<li><strong>Secure</strong>: 指示Cookie仅应通过安全协议发送，如HTTPS。</li>
+<li><strong>HttpOnly</strong>: 指示Cookie不应该被JavaScript访问。</li>
+<li><strong>SameSite</strong>: 用于防止CSRF攻击和用户跟踪，它可以有Strict、Lax和None三个值。</li>
+</ul>
+<p>这些字段控制着Cookie的发送、过期和安全性，对于Web应用中的身份验证、会话管理和个性化设置非常重要。</p>
+<h2 id="服务器端渲染-SSR"><a href="#服务器端渲染-SSR" class="headerlink" title="服务器端渲染 (SSR)"></a>服务器端渲染 (SSR)</h2><h3 id="SSR和SEO"><a href="#SSR和SEO" class="headerlink" title="SSR和SEO"></a>SSR和SEO</h3><p><strong>问题</strong>: SSR和SEO相关了解吗，具体讲讲。<br><strong>回答</strong>:<br>服务器端渲染（SSR）是一种在服务器上生成完整HTML页面的技术，对搜索引擎优化（SEO）非常有益。在SSR中，页面的初始渲染发生在服务器上，生成的HTML然后被发送到客户端。这对SEO有几个主要的好处：</p>
+<ol>
+<li><p><strong>更快的加载时间</strong>: SSR可以提供更快的页面加载时间，因为浏览器可以更快地开始渲染页面，不需要等待所有JavaScript下载并执行。</p>
+</li>
+<li><p><strong>更好的搜索引擎抓取</strong>: 由于页面的HTML是预先生成的，搜索引擎抓取器（如Googlebot）可以更容易地抓取和索引内容。</p>
+</li>
+<li><p><strong>改进的可见性和索引</strong>: 对于不执行JavaScript的搜索引擎抓取器，SSR确保了页面内容的可见性，从而有助于更好地理解和索引页面内容。</p>
+</li>
+<li><p><strong>首屏内容快速呈现</strong>: SSR还有助于快速呈现首屏内容，这对于用户体验和搜索引擎排名都是至关重要的。</p>
+</li>
+</ol>
+<p>尽管如此，SSR也带来了一些挑战，如服务器负载的增加、开发复杂性和可能的延迟渲染问题。但总的来说，SSR是提高Web应用SEO性能的有效手段。</p>
+<h3 id="SSR的缺点"><a href="#SSR的缺点" class="headerlink" title="SSR的缺点"></a>SSR的缺点</h3><p><strong>问题</strong>: 简单讲讲SSR的缺点。<br><strong>回答</strong>:<br>尽管服务器端渲染（SSR）对于SEO和首屏加载时间有显著好处，但它也有一些缺点：</p>
+<ol>
+<li><p><strong>服务器负载</strong>: SSR增加了服务器的负载，因为每个页面请求都需要服务器动态生成HTML。这对于高流量网站来说可能成为一个问题。</p>
+</li>
+<li><p><strong>开发复杂性</strong>: SSR可能增加应用的开发和维护复杂性。开发者需要确保代码在服务器和客户端都能正常运行。</p>
+</li>
+<li><p><strong>时间到首字节（TTFB）延迟</strong>: 由于服务器需要处理更多的渲染工作，这可能导致时间到首字节（即从请求开始到接收到第一个响应字节的时间）的延迟。</p>
+</li>
+<li><p><strong>缓存策略限制</strong>: 使用SSR时，缓存策略可能更难实现，因为每个请求可能需要动态渲染内容。</p>
+</li>
+<li><p><strong>水合（Hydration）问题</strong>: 在SSR中，客户端JavaScript需要“水合”服务器渲染的HTML。如果处理不当，这可能导致客户端和服务器渲染内容不同步的问题。</p>
+</li>
+</ol>
+<p>因此，选择SSR还是客户端渲染（CSR）应根据应用的特定需求和资源来决定。</p>
+<h3 id="SSR和异步请求数据"><a href="#SSR和异步请求数据" class="headerlink" title="SSR和异步请求数据"></a>SSR和异步请求数据</h3><p><strong>问题</strong>: SSR每次都返回整个网页，那是不是浏览器就不用进行异步请求数据并部分更新网页了？<br><strong>回答</strong>:<br>在服务器端渲染（SSR）中，虽然初始页面是由服务器完整生成的，但这并不意味着客户端不需要进行异步请求数据或更新页面部分内容。在以下情况中，客户端依然需要进行异步请求：</p>
+<ol>
+<li><p><strong>动态内容更新</strong>: 对于动态网站，页面上的某些内容可能需要根据用户交互或其他事件动态更新。这些情况下，客户端JavaScript仍然需要发起异步请求来获取最新数据，并更新DOM。</p>
+</li>
+<li><p><strong>客户端路由</strong>: 在单页应用（SPA）中，即使使用了SSR，客户端路由（如使用React Router或Vue Router）依然需要在用户浏览不同页面时请求新数据。</p>
+</li>
+<li><p><strong>用户特定数据</strong>: 对于需要根据不同用户展示不同内容的网站，客户端可能需要请求特定于用户的数据，如个人资料信息、购物车内容等。</p>
+</li>
+<li><p><strong>数据预取和懒加载</strong>: 为了优化性能和用户体验，客户端可能会采用数据预取或懒加载策略，这也需要异步请求。</p>
+</li>
+</ol>
+<p>因此，即使在SSR中，异步请求仍然是现代Web应用的重要组成部分。</p>
+<h2 id="前端框架和库"><a href="#前端框架和库" class="headerlink" title="前端框架和库"></a>前端框架和库</h2><h3 id="Vue如何实现SSR"><a href="#Vue如何实现SSR" class="headerlink" title="Vue如何实现SSR"></a>Vue如何实现SSR</h3><p><strong>问题</strong>: 简单讲讲vue如何实现SSR。<br><strong>回答</strong>:<br>Vue.js实现服务器端渲染（SSR）的核心是使用<code>vue-server-renderer</code>包。基本流程大致如下：</p>
+<ol>
+<li><p><strong>服务器设置</strong>: 首先，需要设置一个可以处理服务器端渲染的Node.js服务器。这通常涉及到创建一个Express或Koa的服务器。</p>
+</li>
+<li><p><strong>创建Vue实例</strong>: 在服务器上，创建一个新的Vue实例，这与在客户端创建Vue应用类似，但是它会针对服务器环境进行优化。</p>
+</li>
+<li><p><strong>路由处理</strong>: 使用<code>vue-router</code>在服务器上处理路由。当一个请求到达时，服务器需要解析URL并渲染相应的Vue组件。</p>
+</li>
+<li><p><strong>组件渲染</strong>: 使用<code>vue-server-renderer</code>将Vue实例渲染为HTML。这个过程涉及到将Vue组件和其子组件渲染成服务器端的HTML字符串。</p>
+</li>
+<li><p><strong>数据预取和状态管理</strong>: 对于需要异步获取数据的组件，服务器渲染过程需要等待这些数据获取完成，才能进行渲染。这通常通过在组件的生命周期钩子中获取数据并利用Vuex进行状态管理来实现。</p>
+</li>
+<li><p><strong>客户端激活</strong>: 服务器发送生成的HTML到客户端后，客户端的Vue应用会“激活”这些静态标记。这个过程称为“水合”（Hydration），Vue会将静态内容转化为动态的应用，使其能够响应用户交互。</p>
+</li>
+<li><p><strong>HTML发送至客户端</strong>: 最后，服务器将渲染好的HTML发送给客户端。这个HTML是应用的初始状态，客户端的Vue应用会在此基础上进行交互。</p>
+</li>
+</ol>
+<p>SSR在Vue.js中可以提升首次加载性能，改善SEO，但也增加了开发和服务器处理的复杂性。</p>
+<h3 id="Vue和React的区别"><a href="#Vue和React的区别" class="headerlink" title="Vue和React的区别"></a>Vue和React的区别</h3><p><strong>问题</strong>: 讲一讲vue和React的区别。<br><strong>回答</strong>:<br>Vue和React是两个流行的前端JavaScript框架，它们各有特点和优势：</p>
+<ol>
+<li><p><strong>设计哲学</strong>:</p>
+<ul>
+<li>Vue更倾向于提供一个更全面的解决方案，它在核心库以外提供了诸如路由器（vue-router）、状态管理（Vuex）等官方库。</li>
+<li>React更专注于UI层，它提供了更多的灵活性，允许开发者选择其他库来处理路由、状态管理等功能。</li>
+</ul>
+</li>
+<li><p><strong>模板语法 vs JSX</strong>:</p>
+<ul>
+<li>Vue使用基于HTML的模板语法，这使得编写和理解组件变得非常直观。</li>
+<li>React使用JSX，这是一种JavaScript的语法扩展，允许在JavaScript代码中写入类似HTML的标记。</li>
+</ul>
+</li>
+<li><p><strong>响应式系统</strong>:</p>
+<ul>
+<li>Vue的响应式系统更简单直观，它使用基于getter&#x2F;setter的系统自动追踪依赖。</li>
+<li>React则使用基于状态（state）和属性（props）的概念，通过setState方法来更新UI。</li>
+</ul>
+</li>
+<li><p><strong>生态系统和社区</strong>:</p>
+<ul>
+<li>React由Facebook支持，拥有更大的社区和生态系统。有大量的第三方库和工具可用。</li>
+<li>Vue虽然社区规模较小，但它拥有一个非常活跃和友好的社区，以及一套完整的官方支持库。</li>
+</ul>
+</li>
+<li><p><strong>学习曲线</strong>:</p>
+<ul>
+<li>Vue通常被认为更容易上手，特别是对于那些熟悉HTML和JavaScript的开发者。</li>
+<li>React的学习曲线可能略高一些，特别是对于初学者来说，理解JSX和组件生命周期可能需要一些时间。</li>
+</ul>
+</li>
+</ol>
+<p>总的来说，Vue和React都是优秀的选择，但它们在设计理念、开发模式和生态系统支持上存在差异。选择哪个框架更多地取决于个人或团队的偏好、项目需求以及期望的开发体验。</p>
+<h2 id="前端工程化"><a href="#前端工程化" class="headerlink" title="前端工程化"></a>前端工程化</h2><h3 id="前端工程化的理解"><a href="#前端工程化的理解" class="headerlink" title="前端工程化的理解"></a>前端工程化的理解</h3><p><strong>问题</strong>: 如何理解前端的工程化？<br><strong>回答</strong>:<br>前端工程化是指将软件工程的方法和实践应用于前端开发，旨在提高代码质量、提升开发效率、促进团队协作和确保项目可持续性。主要包括以下方面：</p>
+<ol>
+<li><p><strong>代码规范化</strong>: 实现代码风格的统一，使用如ESLint、Prettier等工具来自动化代码格式化和质量检查。</p>
+</li>
+<li><p><strong>模块化和组件化</strong>: 将大型代码库分解为可重用的模块和组件，提高代码的可维护性和复用性。</p>
+</li>
+<li><p><strong>自动化构建和部署</strong>: 使用Webpack、Gulp等工具自动化完成构建流程，结合CI&#x2F;CD实现自动化测试和部署。</p>
+</li>
+<li><p><strong>依赖管理</strong>: 使用npm、yarn等包管理工具管理项目依赖。</p>
+</li>
+<li><p><strong>性能优化</strong>: 通过各种策略和实践，如代码分割、懒加载、资源压缩等，提升应用的加载速度和运行效率。</p>
+</li>
+<li><p><strong>测试</strong>: 实施单元测试、集成测试、端到端测试等，确保代码质量。</p>
+</li>
+<li><p><strong>版本控制</strong>: 使用Git等版本控制系统管理代码变更和协作。</p>
+</li>
+<li><p><strong>文档和知识共享</strong>: 编写文档和建立知识共享机制，以促进团队成员之间的信息共享和协作。</p>
+</li>
+<li><p><strong>团队协作和流程优化</strong>: 通过代码审查、敏捷开发方法等提高团队协作效率。</p>
+</li>
+</ol>
+<p>前端工程化不仅关注技术层面的提升，还关注团队协作和项目管理，使得前端开发更加系统化和规范化。</p>
+<h3 id="ESLint中自定义规则的创建"><a href="#ESLint中自定义规则的创建" class="headerlink" title="ESLint中自定义规则的创建"></a>ESLint中自定义规则的创建</h3><p><strong>问题</strong>: 你知道eslint中如何自定义规则吗，举个例子。<br><strong>回答</strong>:<br>在ESLint中自定义规则意味着创建一套自己的代码风格或质量检查规则。这通常涉及以下步骤：</p>
+<ol>
+<li><p><strong>创建规则文件</strong>: 首先创建一个JavaScript文件来定义规则。</p>
+</li>
+<li><p><strong>定义规则逻辑</strong>: 在文件中定义一个对象，该对象包含<code>create</code>方法，该方法返回一个规则对象。这个对象定义了对特定AST节点的处理逻辑。</p>
+</li>
+<li><p><strong>使用AST节点</strong>: 根据需要检查的代码特征，选择相应的AST节点类型。例如，可以选择<code>VariableDeclaration</code>节点来检查变量声明。</p>
+</li>
+<li><p><strong>编写检查逻辑</strong>: 在规则对象中，针对选定的AST节点编写具体的检查逻辑。</p>
+</li>
+</ol>
+<p>例如，创建一个规则来确保所有的变量声明都使用<code>const</code>而非<code>let</code>或<code>var</code>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123;<br>    <span class="hljs-attr">create</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">context</span>) &#123;<br>        <span class="hljs-keyword">return</span> &#123;<br>            <span class="hljs-title class_">VariableDeclaration</span>(node) &#123;<br>                <span class="hljs-keyword">if</span> (node.<span class="hljs-property">kind</span> !== <span class="hljs-string">&#x27;const&#x27;</span>) &#123;<br>                    context.<span class="hljs-title function_">report</span>(&#123;<br>                        node,<br>                        <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;Use const instead of let or var for variable declarations.&#x27;</span><br>                    &#125;);<br>                &#125;<br>            &#125;<br>        &#125;;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>配置ESLint: 将自定义规则添加到ESLint配置中。<br>通过这种方式，可以根据团队的编码标准和最佳实践自定义ESLint规则。</p>
+<p>ESLint规则钩子的使用<br>问题: 你提到了eslint的create钩子，除了这个还有其他的钩子吗？<br>回答:<br>在ESLint中创建规则时，除了create方法外，还可以使用其他钩子来指定不同的行为。这些钩子对应于JavaScript源代码的AST（抽象语法树）中的不同节点类型。当ESLint解析代码时，会触发与这些节点匹配的钩子函数。以下是一些常用的钩子：</p>
+<ul>
+<li><strong>FunctionDeclaration</strong>: 当遇到函数声明时触发。</li>
+<li><strong>CallExpression</strong>: 当遇到函数或方法调用表达式时触发。</li>
+<li><strong>Literal</strong>: 当遇到字面量（如字符串、数字）时触发。</li>
+<li><strong>IfStatement</strong>: 当遇到if语句时触发。</li>
+<li><strong>VariableDeclaration</strong>: 当遇到变量声明时触发。</li>
+<li><strong>ArrowFunctionExpression</strong>: 当遇到箭头函数表达式时触发。</li>
+<li><strong>MemberExpression</strong>: 当遇到对象成员表达式（如<code>obj.property</code>）时触发。</li>
+<li><strong>AssignmentExpression</strong>: 当遇到赋值表达式时触发。</li>
+<li><strong>ImportDeclaration</strong>: 当遇到ES6模块导入时触发。</li>
+</ul>
+<p>使用这些钩子，可以针对特定的代码模式或结构编写定制的检查逻辑，从而创建出适应特定代码风格和要求的ESLint规则。</p>
+<h2 id="前端性能优化"><a href="#前端性能优化" class="headerlink" title="前端性能优化"></a>前端性能优化</h2><h3 id="前端性能指标"><a href="#前端性能指标" class="headerlink" title="前端性能指标"></a>前端性能指标</h3><p><strong>问题</strong>: 举几个最关键的前端性能指标，系统性的讲讲如何针对他们进行优化。<br><strong>回答</strong>:<br>关键的前端性能指标主要包括：</p>
+<ol>
+<li><p><strong>首次内容绘制（First Contentful Paint, FCP）</strong>: 表示从页面加载开始到页面内容的第一部分被渲染的时间。优化FCP的方法包括减少关键渲染路径的资源、最小化主线程工作、延迟加载非关键资源。</p>
+</li>
+<li><p><strong>首次有意义绘制（First Meaningful Paint, FMP）</strong>: 表示主要内容开始出现在屏幕上的时间。优化策略包括优先加载关键内容、使用服务端渲染。</p>
+</li>
+<li><p><strong>可交互时间（Time to Interactive, TTI）</strong>: 页面变得完全可交互的时间。可以通过代码分割、减少JavaScript执行时间、优化页面元素加载优先级来提高TTI。</p>
+</li>
+<li><p><strong>总阻塞时间（Total Blocking Time, TBT）</strong>: FCP和TTI之间主线程被阻塞的总时长。减少长任务、拆分大型JavaScript文件可以减少TBT。</p>
+</li>
+<li><p><strong>最大内容绘制（Largest Contentful Paint, LCP）</strong>: 页面中最大文本块或图像元素完全加载的时间。优化图像、使用更快的服务端响应、客户端渲染优化可以提高LCP。</p>
+</li>
+<li><p><strong>累积布局偏移（Cumulative Layout Shift, CLS）</strong>: 页面加载过程中视觉布局变化的总和。优化策略包括为图像和视频指定尺寸、动态内容加载时避免突然布局变化。</p>
+</li>
+</ol>
+<p>对这些性能指标的优化有助于提升用户体验、提高应用的可访问性和搜索引擎排名。</p>
+<h3 id="白屏时间对应的指标"><a href="#白屏时间对应的指标" class="headerlink" title="白屏时间对应的指标"></a>白屏时间对应的指标</h3><p><strong>问题</strong>: 白屏时间对应的哪个指标？<br><strong>回答</strong>: 白屏时间通常对应于“首次内容绘制”（First Contentful Paint, FCP）这个性能指标。FCP指的是从页面开始加载到页面上的第一个内容元素（如文本、图片）被绘制的时间。在这个时间点之前，用户通常会看到一个空白屏幕，这就是所谓的“白屏”。</p>
+<h2 id="Webpack配置和优化"><a href="#Webpack配置和优化" class="headerlink" title="Webpack配置和优化"></a>Webpack配置和优化</h2><h3 id="配置资源Preload和Prefetch"><a href="#配置资源Preload和Prefetch" class="headerlink" title="配置资源Preload和Prefetch"></a>配置资源Preload和Prefetch</h3><p><strong>问题</strong>: 在webpack5的项目中，如何配置资源preload和prefetch？<br><strong>回答</strong>:<br>在Webpack 5中，你可以使用<code>HtmlWebpackPlugin</code>来配置资源的预加载（preload）和预获取（prefetch）。这可以通过以下步骤实现：</p>
+<ol>
+<li><p><strong>使用<code>HtmlWebpackPlugin</code></strong>:</p>
+<ul>
+<li>该插件用于生成HTML文件，并可以通过配置来包含特定的资源。</li>
+<li>安装<code>html-webpack-plugin</code>并在webpack配置中添加它。</li>
+</ul>
+</li>
+<li><p><strong>配置Preload</strong>:</p>
+<ul>
+<li>使用<code>preload-webpack-plugin</code>或在<code>HtmlWebpackPlugin</code>配置中手动指定<code>preload</code>属性来预加载关键资源。</li>
+<li>这对于需要尽快加载的资源（如CSS、关键脚本和字体文件）非常有用。</li>
+</ul>
+</li>
+<li><p><strong>配置Prefetch</strong>:</p>
+<ul>
+<li>通过在<code>import()</code>语句中添加<code>webpackPrefetch: true</code>注释来实现资源的预获取。</li>
+<li>这适用于将来可能需要但优先级较低的资源，例如在用户执行特定操作时才需要的脚本。</li>
+</ul>
+</li>
+</ol>
+<p>这种配置方法可以优化资源加载时间和应用性能，特别是对于提高首次内容绘制（FCP）和首次有意义绘制（FMP）非常有效。</p>
+<h3 id="Preload、Defer和Async的区别"><a href="#Preload、Defer和Async的区别" class="headerlink" title="Preload、Defer和Async的区别"></a>Preload、Defer和Async的区别</h3><p><strong>问题</strong>: preload和script标签的defer、async有什么区别？<br><strong>回答</strong>:<br><code>preload</code>、<code>defer</code>和<code>async</code>是HTML中用于控制资源加载行为的不同属性，主要区别如下：</p>
+<ul>
+<li><p><strong>Preload</strong>:</p>
+<ul>
+<li>用于告诉浏览器页面必须立即获取的资源。</li>
+<li>通过<code>&lt;link rel=&quot;preload&quot; href=&quot;...&quot;&gt;</code>标签实现。</li>
+<li>对于关键资源，如关键CSS和JavaScript文件，非常有用。</li>
+</ul>
+</li>
+<li><p><strong>Defer</strong>:</p>
+<ul>
+<li>用于延迟执行脚本，直到HTML文档被完全解析和显示后。</li>
+<li>通过在<code>&lt;script&gt;</code>标签中设置<code>defer</code>属性实现。</li>
+<li>保证脚本按照它们在文档中出现的顺序执行，对于依赖DOM的脚本非常有用。</li>
+</ul>
+</li>
+<li><p><strong>Async</strong>:</p>
+<ul>
+<li>允许脚本异步加载。</li>
+<li>通过在<code>&lt;script&gt;</code>标签中设置<code>async</code>属性实现。</li>
+<li>当脚本可用时立即执行，适用于不依赖DOM或其他脚本的独立模块。</li>
+</ul>
+</li>
+</ul>
+<p>这些属性允许开发者更精细地控制资源的加载和执行，从而优化页面加载性能和用户体验。</p>
+<h3 id="配置Async或Defer"><a href="#配置Async或Defer" class="headerlink" title="配置Async或Defer"></a>配置Async或Defer</h3><p><strong>问题</strong>: 在webpack5组织的项目中，如何配置以使用async或defer呢？<br><strong>回答</strong>:<br>在Webpack 5项目中，可以通过以下方式配置使用<code>async</code>或<code>defer</code>:</p>
+<ul>
+<li><p><strong>配置Defer</strong>:</p>
+<ul>
+<li>使用<code>html-webpack-plugin</code>，可以在其配置中指定<code>scriptLoading: &#39;defer&#39;</code>，这会为所有通过Webpack插入的脚本标签添加<code>defer</code>属性。</li>
+<li>这适用于那些需要在文档解析完成后执行，但在DOMContentLoaded事件之前执行的脚本。</li>
+</ul>
+</li>
+<li><p><strong>配置Async</strong>:</p>
+<ul>
+<li>对于<code>async</code>属性，没有直接的Webpack插件配置。</li>
+<li>可以手动编辑生成的HTML文件或使用自定义的HTML模板来添加<code>async</code>属性。</li>
+<li>适用于那些与DOM的解析顺序无关，并且可以独立于页面其余部分加载和执行的脚本。</li>
+</ul>
+</li>
+</ul>
+<p>通过这些方法，可以更好地控制脚本的加载和执行顺序，优化页面加载时间和用户体验。</p>
+<h3 id="将所有Chunk加上Defer的必要性"><a href="#将所有Chunk加上Defer的必要性" class="headerlink" title="将所有Chunk加上Defer的必要性"></a>将所有Chunk加上Defer的必要性</h3><p><strong>问题</strong>: 有必要将生成的所有chunk都加上defer吗？<br><strong>回答</strong>:<br>是否将所有生成的chunk都加上<code>defer</code>属性取决于应用的特定需求。<code>defer</code>属性的使用适合于那些不会改变DOM结构的脚本，以及那些直到页面完全加载后才需要执行的脚本。以下是考虑是否为所有chunk添加<code>defer</code>属性的几个关键点：</p>
+<ol>
+<li><p><strong>非阻塞加载</strong>:</p>
+<ul>
+<li>使用<code>defer</code>可以使脚本在HTML解析过程中以非阻塞的方式加载，这有助于改善页面的加载性能。</li>
+<li>当脚本不依赖于其他脚本，并且不需要在DOM构建的早期运行时，使用<code>defer</code>是合适的。</li>
+</ul>
+</li>
+<li><p><strong>执行顺序</strong>:</p>
+<ul>
+<li><code>defer</code>脚本保证按照它们在HTML中出现的顺序执行。</li>
+<li>如果应用中的脚本有依赖关系或特定的执行顺序要求，<code>defer</code>可以保证这种顺序。</li>
+</ul>
+</li>
+<li><p><strong>脚本依赖</strong>:</p>
+<ul>
+<li>对于依赖DOM或其他脚本的脚本，可能需要在DOM构建的过程中立即执行，这种情况下使用<code>defer</code>可能不合适。</li>
+</ul>
+</li>
+<li><p><strong>首次交互时间</strong>:</p>
+<ul>
+<li>对于影响用户首次交互的脚本，使用<code>defer</code>可以延迟其执行，从而不会阻碍页面的初始渲染。</li>
+</ul>
+</li>
+</ol>
+<p>综上所述，将所有chunk加上<code>defer</code>可以提升页面加载性能，尤其是对于大型应用或含有多个脚本的页面。然而，这需要根据具体的应用架构和脚本依赖关系来决定是否适用。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>https://sakilawaw.github.io/blog/2023/11/27/面试问答/2023-11-10-前端问答Part1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Raiden</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年11月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2023/04/19/Web/2023-04-19-%E6%B5%85%E5%B0%9Drxjs/" title="浅尝rxjs">
+                        <span class="hidden-mobile">浅尝rxjs</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/events.js" ></script>
+<script  src="/blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blog/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
