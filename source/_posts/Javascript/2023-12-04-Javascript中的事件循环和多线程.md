@@ -2,11 +2,11 @@
 layout: post
 title: "Javascript中的事件循环和多线程"
 date: 2023-12-04 21:51:04 GMT+0800
-categories: interview
+categories: javascript
 tags: [javascript, node]
 comments: true
-banner_img: /images/fe-Q&A/js-eventloop-muti_thread-banner.png
-index_img: /images/fe-Q&A/js-eventloop-muti_thread-banner.png
+banner_img: /images/javascript/js-eventloop-muti_thread-banner.png
+index_img: /images/javascript/js-eventloop-muti_thread-banner.png
 ---
 
 # 深入探索 Node.js 的事件循环和多线程机制
@@ -41,13 +41,15 @@ Node.js 的事件循环分为几个主要阶段：
 ### 使用 worker_threads
 
 1. **引入模块**：
-   ===javascript
-   const { Worker, isMainThread, parentPort } = require('worker_threads');
-   ===
+
+   ```javascript
+   const { Worker, isMainThread, parentPort } = require("worker_threads");
+   ```
 
 2. **创建和使用 Worker**：
    主线程可以创建 Worker，并在 Worker 中执行独立的任务。
-   ===javascript
+
+   ```javascript
    if (isMainThread) {
    const worker = new Worker(\_\_filename);
    // ...
@@ -55,19 +57,20 @@ Node.js 的事件循环分为几个主要阶段：
    // Worker 线程中的代码
    // ...
    }
-   ===
+   ```
 
 3. **主线程和 Worker 之间的通信**：
    使用`postMessage`和`onmessage`进行通信。
-   ===javascript
+
+   ```javascript
    // 主线程中
-   worker.postMessage('Hello, worker!');
+   worker.postMessage("Hello, worker!");
 
    // Worker 线程中
-   parentPort.on('message', (message) => {
-   // ...
+   parentPort.on("message", (message) => {
+     // ...
    });
-   ===
+   ```
 
 ### 注意事项
 
