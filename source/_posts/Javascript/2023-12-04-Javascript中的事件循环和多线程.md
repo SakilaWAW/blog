@@ -5,8 +5,8 @@ date: 2023-12-04 21:51:04 GMT+0800
 categories: javascript
 tags: [javascript, node]
 comments: true
-banner_img: /images/javascript/js-eventloop-muti_thread-banner.png
-index_img: /images/javascript/js-eventloop-muti_thread-banner.png
+banner_img: /images/javascript/js-eventloop-muti_thread-banner.webp
+index_img: /images/javascript/js-eventloop-muti_thread-banner.webp
 ---
 
 # 深入探索 Node.js 的事件循环和多线程机制
