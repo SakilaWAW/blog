@@ -5,8 +5,8 @@ date: 2023-12-26 00:51:04 GMT+0800
 categories: javascript
 tags: [javascript, module]
 comments: true
-banner_img: /images/js-modular-banner.webp
-index_img: /images/js-modular-banner.webp
+banner_img: /images/js-modular-banner.png
+index_img: /images/js-modular-banner.png
 ---
 
 # JavaScript 模块化浅析
