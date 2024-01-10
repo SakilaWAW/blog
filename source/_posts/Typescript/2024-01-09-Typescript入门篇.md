@@ -9,30 +9,30 @@ banner_img: /images/typescript/ts-handbook-junior-banner.png
 index_img: /images/typescript/ts-handbook-junior-banner.png
 ---
 
-# TypeScript 入门篇
+# Typescript 入门篇
 
-## 1. TypeScript 简介
+## 1. Typescript 简介
 
-TypeScript 是 JavaScript 的一个超集，添加了类型系统和对 ES6+ 的支持。
+Typescript 是 JavaScript 的一个超集，添加了类型系统和对 ES6+ 的支持。
 
-什么是 TypeScript:
+什么是 Typescript:
 
-- TypeScript 是一种由微软开发的开源语言，它扩展了 JavaScript，增加了类型检查。
+- Typescript 是一种由微软开发的开源语言，它扩展了 JavaScript，增加了类型检查。
 
-TypeScript 与 JavaScript 的区别:
+Typescript 与 JavaScript 的区别:
 
-- TypeScript 提供了类型检查，能够在编译时发现并纠正错误，而 JavaScript 是动态类型的，只能在运行时发现错误。
+- Typescript 提供了类型检查，能够在编译时发现并纠正错误，而 JavaScript 是动态类型的，只能在运行时发现错误。
 
 ## 2. 安装和配置
 
-TypeScript 的安装和配置是入门的第一步。
+Typescript 的安装和配置是入门的第一步。
 
-安装 TypeScript:
+安装 Typescript:
 
 - 通过 npm 安装：`npm install -g typescript`
 
 设置和理解 `tsconfig.json`:
-`tsconfig.json` 文件定义了 TypeScript 项目的编译选项和根文件。
+`tsconfig.json` 文件定义了 Typescript 项目的编译选项和根文件。
 
 ```json
 {
@@ -46,7 +46,7 @@ TypeScript 的安装和配置是入门的第一步。
 
 ## 3. 基本类型
 
-TypeScript 支持 JavaScript 中的大多数基本类型，并引入了一些新的类型。
+Typescript 支持 JavaScript 中的大多数基本类型，并引入了一些新的类型。
 
 字符串、数字、布尔值:
 
@@ -84,7 +84,7 @@ Void 和 Undefined:
 
 ## 4. 函数
 
-TypeScript 中的函数可以为参数和返回值设置类型。
+Typescript 中的函数可以为参数和返回值设置类型。
 
 函数类型:
 
@@ -112,7 +112,7 @@ function buildName(firstName: string, ...restOfName: string[]): string {
 
 ## 5. 接口
 
-接口是 TypeScript 中定义对象类型的一种方式。
+接口是 Typescript 中定义对象类型的一种方式。
 
 接口定义:
 
@@ -158,7 +158,7 @@ interface ClockInterface {
 
 ## 6. 类
 
-TypeScript 支持面向对象编程特性，如类、接口等。
+Typescript 支持面向对象编程特性，如类、接口等。
 
 类的基本使用:
 
@@ -192,13 +192,13 @@ class Dog extends Animal {
 
 公共、私有与受保护的修饰符:
 
-- TypeScript 支持 `public`（默认）、`private` 和 `protected`
+- Typescript 支持 `public`（默认）、`private` 和 `protected`
 
 访问修饰符。
 
 存取器:
 
-- TypeScript 支持通过 `getters/setters` 来截取对对象成员的访问。
+- Typescript 支持通过 `getters/setters` 来截取对对象成员的访问。
 
 静态属性和方法:
 
@@ -221,11 +221,11 @@ let strLength: number = (<string>someValue).length;
 
 类型守卫:
 
-- TypeScript 使用类型守卫来细化类型的范围。
+- Typescript 使用类型守卫来细化类型的范围。
 
 ## 8. 类型推论
 
-TypeScript 会在没有明确指出类型的地方自动推断出一个类型。
+Typescript 会在没有明确指出类型的地方自动推断出一个类型。
 
 基本规则:
 
@@ -237,7 +237,7 @@ TypeScript 会在没有明确指出类型的地方自动推断出一个类型。
 
 上下文类型:
 
-- TypeScript 也会根据上下文进行类型推断，如在事件处理中。
+- Typescript 也会根据上下文进行类型推断，如在事件处理中。
 
 ## 9. 联合类型和交叉类型
 
