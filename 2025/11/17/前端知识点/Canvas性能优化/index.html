@@ -1,0 +1,814 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/fluid.png">
+  <link rel="icon" href="/blog/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Raiden">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Canvas 性能优化（系统化速记） 目标：用尽可能少的绘制成本实现足够好的帧率与体验。强调“少画、分层、异步、缓存、按需”。  “少、层、异、缓、需”  核心思路 少画：只重绘变化区域（Dirty Rect），避免整屏清空重画 分层：静态与动态分开，多画布或离屏缓冲减少重复绘制 异步：把重任务移出主线程；能用 OffscreenCanvas &#x2F; createImageBitmap 就用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Canvas性能优化">
+<meta property="og:url" content="https://sakilawaw.github.io/blog/2025/11/17/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E7%82%B9/Canvas%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="鲱鱼罐头大吃两碗">
+<meta property="og:description" content="Canvas 性能优化（系统化速记） 目标：用尽可能少的绘制成本实现足够好的帧率与体验。强调“少画、分层、异步、缓存、按需”。  “少、层、异、缓、需”  核心思路 少画：只重绘变化区域（Dirty Rect），避免整屏清空重画 分层：静态与动态分开，多画布或离屏缓冲减少重复绘制 异步：把重任务移出主线程；能用 OffscreenCanvas &#x2F; createImageBitmap 就用">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-11-17T14:00:00.000Z">
+<meta property="article:modified_time" content="2025-11-17T07:26:02.355Z">
+<meta property="article:author" content="Raiden">
+<meta property="article:tag" content="Canvas">
+<meta property="article:tag" content="性能优化">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="图形">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Canvas性能优化 - 鲱鱼罐头大吃两碗</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sakilawaw.github.io","root":"/blog/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/blog/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blog/js/utils.js" ></script>
+  <script  src="/blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blog/">
+      <strong>鲱鱼罐头大吃两碗</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.6)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Canvas性能优化"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-11-17 14:00" pubdate>
+          2025年11月17日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          29 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Canvas性能优化</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Canvas-性能优化（系统化速记）"><a href="#Canvas-性能优化（系统化速记）" class="headerlink" title="Canvas 性能优化（系统化速记）"></a>Canvas 性能优化（系统化速记）</h1><blockquote>
+<p>目标：用尽可能少的绘制成本实现足够好的帧率与体验。强调“少画、分层、异步、缓存、按需”。</p>
+</blockquote>
+<p>“少、层、异、缓、需”</p>
+<hr>
+<h2 id="核心思路"><a href="#核心思路" class="headerlink" title="核心思路"></a>核心思路</h2><ul>
+<li>少画：只重绘变化区域（Dirty Rect），避免整屏清空重画</li>
+<li>分层：静态与动态分开，多画布或离屏缓冲减少重复绘制</li>
+<li>异步：把重任务移出主线程；能用 <code>OffscreenCanvas</code> &#x2F; <code>createImageBitmap</code> 就用</li>
+<li>缓存：路径、文本、位图、测量结果都可缓存，减少重复计算</li>
+<li>按需：控制刷新节奏，资源解码与缩放在加载时做，不在每帧做</li>
+</ul>
+<hr>
+<h2 id="绘制开销来源"><a href="#绘制开销来源" class="headerlink" title="绘制开销来源"></a>绘制开销来源</h2><ul>
+<li>过多 draw calls（频繁状态切换、绘制命令）</li>
+<li>大面积像素读写（<code>getImageData/putImageData</code>）</li>
+<li>动态缩放与解码（<code>drawImage</code>对原始大图每帧缩放&#x2F;解码）</li>
+<li>繁重的样式（阴影、复杂合成、全局透明）</li>
+<li>频繁的保存&#x2F;恢复状态（<code>save/restore</code>）</li>
+<li>主线程阻塞（布局、JS计算与绘制抢同一帧）</li>
+</ul>
+<hr>
+<h2 id="快速原则"><a href="#快速原则" class="headerlink" title="快速原则"></a>快速原则</h2><ul>
+<li>使用 <code>requestAnimationFrame</code> 驱动动画</li>
+<li>每帧只更新变动区域；其余保持不动</li>
+<li>预计算与缓存：<code>Path2D</code>、<code>measureText</code>、渐变&#x2F;图案、位图</li>
+<li>避免每帧 <code>save/restore</code>；用 <code>setTransform</code> 一次性设置矩阵</li>
+<li>减少样式切换（<code>fillStyle/strokeStyle/globalAlpha/shadow</code>）</li>
+<li>控制画布像素尺寸；高 DPI 用比例缩放而非超大像素</li>
+</ul>
+<hr>
+<h2 id="尺寸与缩放"><a href="#尺寸与缩放" class="headerlink" title="尺寸与缩放"></a>尺寸与缩放</h2><ul>
+<li>DPI 适配：<code>canvas.width = cssWidth * devicePixelRatio</code>；渲染后用 CSS 缩回显示尺寸</li>
+<li>避免巨型画布（超大像素必慢）；需要高分图时可分片渲染或按需放大</li>
+<li>缩放策略：优先在资源加载时处理到目标大小，减少运行时 <code>drawImage</code> 动态缩放</li>
+</ul>
+<hr>
+<h2 id="图像与资源"><a href="#图像与资源" class="headerlink" title="图像与资源"></a>图像与资源</h2><ul>
+<li>预载与解码：<code>await img.decode()</code>；或用 <code>createImageBitmap(img)</code> 加速位图传输</li>
+<li>位图缓存：将常用图形画入离屏画布（或 <code>OffscreenCanvas</code>），按需拷贝到主画布</li>
+<li>避免每帧缩放同一大图：预生成多尺度版本（sprite&#x2F;多级缓存）</li>
+<li><code>imageSmoothingEnabled</code> 按需启用&#x2F;关闭，平衡质量与速度</li>
+</ul>
+<p>示例：离屏缓存与快速拷贝</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> off = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;canvas&#x27;</span>);<br>off.<span class="hljs-property">width</span> = w; off.<span class="hljs-property">height</span> = h;<br><span class="hljs-keyword">const</span> offCtx = off.<span class="hljs-title function_">getContext</span>(<span class="hljs-string">&#x27;2d&#x27;</span>);<br>offCtx.<span class="hljs-title function_">drawImage</span>(srcImg, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, w, h);<br><span class="hljs-comment">// 帧内复用</span><br>ctx.<span class="hljs-title function_">drawImage</span>(off, x, y);<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="文本与路径"><a href="#文本与路径" class="headerlink" title="文本与路径"></a>文本与路径</h2><ul>
+<li>文本：缓存 <code>measureText</code> 结果；减少字体&#x2F;样式切换；静态文本单独图层</li>
+<li>路径：用 <code>Path2D</code> 缓存复杂形状；复用渐变与图案对象<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> p = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Path2D</span>();<br>p.<span class="hljs-title function_">moveTo</span>(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>); p.<span class="hljs-title function_">arc</span>(<span class="hljs-number">50</span>,<span class="hljs-number">50</span>,<span class="hljs-number">40</span>,<span class="hljs-number">0</span>,<span class="hljs-title class_">Math</span>.<span class="hljs-property">PI</span>*<span class="hljs-number">2</span>);<br>ctx.<span class="hljs-title function_">fill</span>(p);<br></code></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2 id="脏矩形与分层"><a href="#脏矩形与分层" class="headerlink" title="脏矩形与分层"></a>脏矩形与分层</h2><ul>
+<li>脏矩形：记录变动区域，仅清理与重绘该区域</li>
+<li>分层渲染：背景&#x2F;网格&#x2F;静态元素一个画布，动态元素单独画布叠加；更新时只重绘动态层</li>
+<li>双缓冲：在离屏绘制完成后一次性拷贝到主屏，减少闪烁与撕裂</li>
+</ul>
+<hr>
+<h2 id="变换与状态"><a href="#变换与状态" class="headerlink" title="变换与状态"></a>变换与状态</h2><ul>
+<li>尽量用 <code>setTransform(a,b,c,d,e,f)</code> 一次性设置矩阵，避免多次 <code>translate/rotate/scale</code></li>
+<li>控制 <code>save/restore</code> 次数，批量同类绘制减少状态切换</li>
+<li>合理绘制顺序：将相同样式的图元批量绘制</li>
+</ul>
+<hr>
+<h2 id="像素级操作"><a href="#像素级操作" class="headerlink" title="像素级操作"></a>像素级操作</h2><ul>
+<li>只在必要时使用 <code>getImageData/putImageData</code>；区域越小越好</li>
+<li>使用 <code>Uint8ClampedArray</code> 等类型数组一次性批量处理</li>
+<li>多步滤镜考虑 WebGL&#x2F;GLSL 或 GPU 加速</li>
+</ul>
+<hr>
+<h2 id="主线程与异步"><a href="#主线程与异步" class="headerlink" title="主线程与异步"></a>主线程与异步</h2><ul>
+<li><code>OffscreenCanvas</code>：在 Worker 中绘制，主线程只合成结果（Chrome&#x2F;Firefox 支持较好）</li>
+<li>任务切分：重计算分段到多帧或 Worker；主线程负责事件与轻量绘制</li>
+<li>避免与布局&#x2F;测量同帧争抢时间（减少同步读写样式）</li>
+</ul>
+<p>Worker 示例（简化版）：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 主线程</span><br><span class="hljs-keyword">const</span> worker = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Worker</span>(<span class="hljs-string">&#x27;render.js&#x27;</span>);<br><span class="hljs-keyword">const</span> off = <span class="hljs-keyword">new</span> <span class="hljs-title class_">OffscreenCanvas</span>(w, h);<br>worker.<span class="hljs-title function_">postMessage</span>(&#123; <span class="hljs-attr">canvas</span>: off &#125;, [off]);<br><br><span class="hljs-comment">// render.js</span><br>onmessage = <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> &#123;<br>  <span class="hljs-keyword">const</span> ctx = e.<span class="hljs-property">data</span>.<span class="hljs-property">canvas</span>.<span class="hljs-title function_">getContext</span>(<span class="hljs-string">&#x27;2d&#x27;</span>);<br>  <span class="hljs-comment">// 绘制重任务</span><br>  <span class="hljs-comment">// ...</span><br>  <span class="hljs-title function_">postMessage</span>(<span class="hljs-string">&#x27;done&#x27;</span>);<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="调度与节流"><a href="#调度与节流" class="headerlink" title="调度与节流"></a>调度与节流</h2><ul>
+<li>用单一 <code>rAF</code> 循环协调更新；避免多个不受控的动画源</li>
+<li>跳帧策略：复杂帧耗时过长时减少绘制频率或分帧渲染</li>
+<li>事件节流&#x2F;防抖：<code>mousemove/resize/scroll</code> 等联动绘制要节流</li>
+</ul>
+<hr>
+<h2 id="合成与样式开销"><a href="#合成与样式开销" class="headerlink" title="合成与样式开销"></a>合成与样式开销</h2><ul>
+<li>阴影&#x2F;模糊&#x2F;复杂合成谨慎使用；预渲染静态阴影，动态仅平移拷贝</li>
+<li>全局透明（<code>globalAlpha</code>）在大面积绘制上开销大，优先局部或预合成</li>
+<li>混合模式 <code>globalCompositeOperation</code> 用在少量元素上；避免整屏反复切换</li>
+</ul>
+<hr>
+<h2 id="常见反模式"><a href="#常见反模式" class="headerlink" title="常见反模式"></a>常见反模式</h2><ul>
+<li>每帧清空整画布再全量重绘</li>
+<li>动态缩放&#x2F;解码原始大图</li>
+<li>大量 <code>save/restore</code> 与样式频繁切换</li>
+<li>过度像素级操作、逐像素循环写入大区域</li>
+<li>在主线程做重计算、与布局&#x2F;样式强耦合</li>
+</ul>
+<hr>
+<h2 id="实战清单（落地版）"><a href="#实战清单（落地版）" class="headerlink" title="实战清单（落地版）"></a>实战清单（落地版）</h2><ul>
+<li>rAF 驱动，单循环</li>
+<li>设备像素比适配，控制画布像素尺寸</li>
+<li>脏矩形 + 分层（静态&#x2F;动态）</li>
+<li>离屏缓存（<code>OffscreenCanvas</code> 或隐藏 <code>canvas</code>）</li>
+<li>资源预解码与位图缓存（<code>createImageBitmap</code>）</li>
+<li><code>Path2D</code>、<code>measureText</code> 等结果缓存</li>
+<li>减少样式切换与状态保存</li>
+<li>必要时 Worker 渲染或任务切分</li>
+<li>事件节流、防抖</li>
+<li>DevTools 性能面板定位瓶颈（CPU占用、绘制时间、帧率）</li>
+</ul>
+<hr>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><ul>
+<li>Canvas 的优化本质是“减少不必要的工作”：少画、分层、异步、缓存、按需。先用性能面板找出最大开销，再按以上清单逐个消除，大多数场景都能把帧率稳到 60fps 左右。</li>
+</ul>
+<hr>
+<h2 id="面试速答（标准版）"><a href="#面试速答（标准版）" class="headerlink" title="面试速答（标准版）"></a>面试速答（标准版）</h2><ul>
+<li>核心原则：少画、分层、异步、缓存、按需。</li>
+<li>关键手段：<ul>
+<li>脏矩形：只重绘变化区域，避免整屏清空。</li>
+<li>分层&#x2F;离屏：静态与动态分开；离屏画布或 <code>OffscreenCanvas</code> 复用背景与重任务。</li>
+<li>资源优化：<code>createImageBitmap</code> 预解码；预生成多尺度位图，减少每帧缩放。</li>
+<li>路径与文本缓存：<code>Path2D</code>、<code>measureText</code> 结果复用；减少样式切换与 <code>save/restore</code>。</li>
+<li>变换与DPI：一次性 <code>setTransform</code> 合并矩阵；按 <code>devicePixelRatio</code> 放大像素、CSS 缩回。</li>
+<li>调度与节流：统一 <code>requestAnimationFrame</code> 循环；对 <code>mousemove/resize</code> 做节流&#x2F;防抖。</li>
+</ul>
+</li>
+<li>度量指标：<ul>
+<li>FPS 与平均帧时（Performance 面板）；绘制调用数、重绘面积、像素操作规模；CPU&#x2F;内存占用。</li>
+<li>目标：动画稳定 ≥60 FPS；关键帧时长 ≤16.7ms；避免大面积像素读写与样式高开销。</li>
+</ul>
+</li>
+<li>典型场景答法：<ul>
+<li>大图缩放卡顿：预解码 + 预缩放缓存；帧内直接 <code>drawImage</code> 缓存。</li>
+<li>背景不变但动画卡：背景离屏或分层；每帧只清&#x2F;画动态层。</li>
+<li>阴影&#x2F;合成导致掉帧：静态阴影预渲染；减少 <code>globalAlpha</code> 大面积使用与合成模式切换。</li>
+<li>文本与复杂形状：<code>measureText</code>、<code>Path2D</code> 缓存；批量绘制、减少样式切换。</li>
+<li>设备模糊：按 <code>dpr</code> 设置画布像素；<code>setTransform</code> 以 CSS 坐标绘制。</li>
+</ul>
+</li>
+<li>反模式速记：每帧整屏重绘；每帧缩放&#x2F;解码原始大图；过度像素级处理；频繁 <code>save/restore</code> 与样式切换；主线程重计算与布局耦合。</li>
+</ul>
+<p>一句话收尾：先量化（FPS&#x2F;帧时&#x2F;重绘面积），再用“脏矩形 + 分层 + 离屏&#x2F;异步 + 资源与路径缓存 + 一次性变换”逐项削峰，场景化举措能稳定把动画拉回 60 FPS。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blog/categories/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E7%82%B9/" class="category-chain-item">前端知识点</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/blog/tags/Canvas/">#Canvas</a>
+      
+        <a href="/blog/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">#性能优化</a>
+      
+        <a href="/blog/tags/%E5%89%8D%E7%AB%AF/">#前端</a>
+      
+        <a href="/blog/tags/%E5%9B%BE%E5%BD%A2/">#图形</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Canvas性能优化</div>
+      <div>https://sakilawaw.github.io/blog/2025/11/17/前端知识点/Canvas性能优化/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Raiden</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年11月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2025/11/13/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E7%82%B9/SSO%E7%99%BB%E5%BD%95/" title="SSO登录">
+                        <span class="hidden-mobile">SSO登录</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/events.js" ></script>
+<script  src="/blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blog/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
