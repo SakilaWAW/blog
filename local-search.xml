@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>速答小抄</title>
+    <link href="/blog/2025/11/17/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E7%82%B9/%E9%80%9F%E7%AD%94%E5%B0%8F%E6%8A%84/"/>
+    <url>/blog/2025/11/17/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E7%82%B9/%E9%80%9F%E7%AD%94%E5%B0%8F%E6%8A%84/</url>
+    
+    <content type="html"><![CDATA[<h1 id="速答小抄"><a href="#速答小抄" class="headerlink" title="速答小抄"></a>速答小抄</h1><h2 id="Canvas-性能优化（面试卡片）"><a href="#Canvas-性能优化（面试卡片）" class="headerlink" title="Canvas 性能优化（面试卡片）"></a>Canvas 性能优化（面试卡片）</h2><ul><li>核心原则：少画、分层、异步、缓存、按需</li><li>快速清单：<ul><li>脏矩形：只重绘变化区域；避免整屏清空</li><li>分层&#x2F;离屏：静态与动态分开；背景离屏缓存复用</li><li>资源优化：<code>createImageBitmap</code> 预解码；多尺度位图缓存，减少每帧缩放</li><li>路径&#x2F;文本缓存：<code>Path2D</code>、<code>measureText</code> 结果复用；减少样式切换与 <code>save/restore</code></li><li>变换&#x2F;DPI：一次性 <code>setTransform</code>；按 <code>devicePixelRatio</code> 放大像素、CSS 缩回显示尺寸</li><li>调度&#x2F;节流：统一 <code>requestAnimationFrame</code>；对 <code>mousemove/resize</code> 做节流&#x2F;防抖</li></ul></li><li>指标目标：<ul><li>FPS ≥ 60；平均帧时 ≤ 16.7ms</li><li>观察绘制调用数、重绘面积、像素读写规模、CPU&#x2F;内存占用</li></ul></li><li>场景速答：<ul><li>大图缩放卡顿：预解码 + 预缩放缓存，帧内直接拷贝</li><li>背景静态动画卡：背景分层或离屏；每帧仅重绘动态层</li><li>阴影&#x2F;合成开销大：静态阴影预渲染；减少 <code>globalAlpha</code> 大面积使用与混合模式切换</li><li>文本&#x2F;复杂形状多：<code>measureText</code>、<code>Path2D</code> 缓存；批量同样式绘制</li><li>模糊：按 <code>dpr</code> 设像素尺寸 + <code>setTransform</code></li></ul></li><li>反模式：<ul><li>每帧整屏重绘；每帧缩放&#x2F;解码原始大图；过度像素级操作；频繁状态切换；主线程重计算耦合布局</li></ul></li><li>一句话：先量化，再用“脏矩形 + 分层 + 离屏&#x2F;异步 + 资源与路径缓存 + 一次性变换”逐项削峰，稳定 60FPS。</li></ul><p>示例入口：<code>知识点demo/Canvas性能优化/index.html</code></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端知识点</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>速答</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Canvas性能优化</title>
     <link href="/blog/2025/11/17/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E7%82%B9/Canvas%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
     <url>/blog/2025/11/17/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E7%82%B9/Canvas%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</url>
