@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8" />
+<title>分层渲染</title>
+<style>
+  .wrap { position: relative; width: 600px; height: 300px; }
+  canvas { position: absolute; left:0; top:0; border:1px solid #ddd; }
+</style>
+<body>
+<h2>分层渲染：对比基准（单层全量重绘）与优化（多层）并显示指标</h2>
+<div>
+  <button id="modeBaseline">基准：单画布全量重绘</button>
+  <button id="modeOptimized">优化：静态层 + 动态层 + 特效层</button>
+  <span id="stats">FPS: -, 帧时: -, 操作: -</span>
+  <button id="toggleFX">切换特效层</button>
+  <span id="fxState"></span>
+  
+</div>
+<div class="wrap">
+  <canvas id="bg" width="600" height="300"></canvas>
+  <canvas id="dyn" width="600" height="300"></canvas>
+  <canvas id="fx" width="600" height="300"></canvas>
+  <!-- bg：静态背景；dyn：动态元素；fx：少量特效（阴影/混合）-->
+  
+</div>
+<script>
+const bg = document.getElementById('bg');
+const dyn = document.getElementById('dyn');
+const fx = document.getElementById('fx');
+const bgCtx = bg.getContext('2d');
+const dynCtx = dyn.getContext('2d');
+const fxCtx = fx.getContext('2d');
+
+let mode = 'optimized';
+document.getElementById('modeBaseline').onclick = ()=> mode = 'baseline';
+document.getElementById('modeOptimized').onclick = ()=> mode = 'optimized';
+const statsEl = document.getElementById('stats');
+let showFX = true;
+document.getElementById('toggleFX').onclick = ()=> { showFX = !showFX; document.getElementById('fxState').textContent = showFX ? '特效开' : '特效关'; if (!showFX) fxCtx.clearRect(0,0,fx.width,fx.height); };
+
+bgCtx.fillStyle = '#fafafa';
+bgCtx.fillRect(0,0,bg.width,bg.height);
+bgCtx.strokeStyle = '#eee';
+for (let x=0;x<bg.width;x+=25){ bgCtx.beginPath(); bgCtx.moveTo(x,0); bgCtx.lineTo(x,bg.height); bgCtx.stroke(); }
+for (let y=0;y<bg.height;y+=25){ bgCtx.beginPath(); bgCtx.moveTo(0,y); bgCtx.lineTo(bg.width,y); bgCtx.stroke(); }
+
+// 动态层：清理有限区域，或每帧清理整个 dyn 层（不清理 bg）
+let sprites = Array.from({length: 30}, (_,i)=>({
+  x: Math.random()*580+10,
+  y: Math.random()*280+10,
+  vx: (Math.random()*2-1)*2,
+  vy: (Math.random()*2-1)*2,
+  r: 6 + Math.random()*6,
+  color: `hsl(${i*12%360},70%,50%)`
+}));
+
+function drawSprites(ctx) {
+  ctx.clearRect(0,0,dyn.width,dyn.height);
+  for (const s of sprites){
+    s.x += s.vx; s.y += s.vy;
+    if (s.x < s.r || s.x > dyn.width - s.r) s.vx *= -1;
+    if (s.y < s.r || s.y > dyn.height - s.r) s.vy *= -1;
+    ctx.fillStyle = s.color;
+    ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill();
+  }
+}
+
+// 特效层：仅在需要时使用阴影等高开销样式
+function drawShadow() {
+  fxCtx.clearRect(0,0,fx.width,fx.height);
+  fxCtx.save();
+  fxCtx.shadowColor = 'rgba(0,0,0,0.2)';
+  fxCtx.shadowBlur = 12;
+  fxCtx.fillStyle = '#fff';
+  fxCtx.fillRect(10,10,200,60);
+  fxCtx.restore();
+}
+
+const times=[];
+function updateStats(dt, ops){
+  times.push(dt); if (times.length>60) times.shift();
+  const avg = times.reduce((a,b)=>a+b,0)/times.length;
+  const fps = (1000/avg).toFixed(1);
+  statsEl.textContent = `FPS: ${fps}, 帧时: ${avg.toFixed(1)}ms, 操作: ${ops}`;
+}
+
+function raf(){
+  const t0 = performance.now();
+  requestAnimationFrame(raf);
+  let ops=0;
+  if (mode==='baseline'){
+    const baseCtx = dynCtx;
+    baseCtx.clearRect(0,0,bg.width,bg.height);
+    baseCtx.fillStyle = '#fafafa'; baseCtx.fillRect(0,0,bg.width,bg.height); ops++;
+    baseCtx.strokeStyle = '#eee';
+    for (let x=0;x<bg.width;x+=25){ baseCtx.beginPath(); baseCtx.moveTo(x,0); baseCtx.lineTo(x,bg.height); baseCtx.stroke(); }
+    for (let y=0;y<bg.height;y+=25){ baseCtx.beginPath(); baseCtx.moveTo(0,y); baseCtx.lineTo(bg.width,y); baseCtx.stroke(); }
+    ops += (bg.width/25 + bg.height/25)|0;
+    drawSprites(baseCtx); ops += sprites.length;
+    if (showFX) drawShadow();
+  } else {
+    drawSprites(dynCtx); ops += sprites.length;
+    if (showFX) drawShadow();
+  }
+  updateStats(performance.now()-t0, ops);
+}
+drawShadow();
+raf();
+</script>
+</body>
+</html>

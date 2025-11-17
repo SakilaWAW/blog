@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8" />
+<title>OffscreenCanvas + Worker</title>
+<style>canvas{border:1px solid #ddd;}</style>
+<body>
+<h2>OffscreenCanvas + Worker：对比基准与优化并显示指标</h2>
+<div>
+  <button id="modeBaseline">基准：主线程重绘</button>
+  <button id="modeOptimized">优化：Worker 后台重绘</button>
+  <span id="stats">主线程FPS: -, 帧时: -</span>
+  <span id="status" style="margin-left:16px">初始化中...</span>
+</div>
+<canvas id="view" width="600" height="300"></canvas>
+<script>
+const view = document.getElementById('view');
+const status = document.getElementById('status');
+const stats = document.getElementById('stats');
+let mode = 'optimized';
+document.getElementById('modeBaseline').onclick = ()=> mode='baseline';
+document.getElementById('modeOptimized').onclick = ()=> mode='optimized';
+
+if ('OffscreenCanvas' in window) {
+  const worker = new Worker('render.js');
+  const off = view.transferControlToOffscreen();
+  worker.postMessage({ canvas: off, width: view.width, height: view.height }, [off]);
+  worker.onmessage = (e) => { status.textContent = e.data || '渲染中...'; };
+  const ctx = view.getContext('2d');
+  const times=[];
+  function heavyDraw(t){
+    ctx.clearRect(0,0,view.width,view.height);
+    for(let i=0;i<4000;i++){
+      const x = Math.random()*view.width;
+      const y = Math.random()*view.height;
+      ctx.fillStyle = `hsl(${(t+i)%360},70%,60%)`;
+      ctx.fillRect(x,y,2,2);
+    }
+  }
+  function loop(ts){
+    const t0 = performance.now();
+    requestAnimationFrame(loop);
+    if (mode==='baseline') heavyDraw(ts/16);
+    const dt = performance.now()-t0; times.push(dt); if (times.length>60) times.shift(); const avg=times.reduce((a,b)=>a+b,0)/times.length; const fps=(1000/avg).toFixed(1); stats.textContent = `主线程FPS: ${fps}, 帧时: ${avg.toFixed(1)}ms`;
+  }
+  loop(0);
+} else {
+  status.textContent = '当前浏览器不支持 OffscreenCanvas';
+  const ctx = view.getContext('2d');
+  const times=[];
+  function heavyDraw(t){
+    ctx.clearRect(0,0,view.width,view.height);
+    for(let i=0;i<4000;i++){
+      const x = Math.random()*view.width;
+      const y = Math.random()*view.height;
+      ctx.fillStyle = `hsl(${(t+i)%360},70%,60%)`;
+      ctx.fillRect(x,y,2,2);
+    }
+  }
+  function loop(ts){
+    const t0 = performance.now();
+    requestAnimationFrame(loop);
+    heavyDraw(ts/16);
+    const dt = performance.now()-t0; times.push(dt); if (times.length>60) times.shift(); const avg=times.reduce((a,b)=>a+b,0)/times.length; const fps=(1000/avg).toFixed(1); stats.textContent = `主线程FPS: ${fps}, 帧时: ${avg.toFixed(1)}ms`;
+  }
+  loop(0);
+}
+</script>
+</body>
+</html>

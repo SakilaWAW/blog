@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8" />
+<title>脏矩形重绘</title>
+<style>canvas{border:1px solid #ddd;}</style>
+<body>
+<h2>脏矩形重绘：对比基准 vs 优化，并显示指标</h2>
+<div>
+  <button id="modeBaseline">基准：整屏重绘</button>
+  <button id="modeOptimized">优化：脏矩形 + 离屏</button>
+  <span id="stats">FPS: -, 帧时: -, 绘制操作: -</span>
+</div>
+<canvas id="c" width="600" height="300"></canvas>
+<script>
+const c = document.getElementById('c');
+const ctx = c.getContext('2d');
+const statsEl = document.getElementById('stats');
+let mode = 'optimized';
+document.getElementById('modeBaseline').onclick = ()=> mode = 'baseline';
+document.getElementById('modeOptimized').onclick = ()=> mode = 'optimized';
+
+function drawGrid(ctx) {
+  ctx.strokeStyle = '#eee';
+  for (let x=0; x<c.width; x+=25) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,c.height); ctx.stroke(); }
+  for (let y=0; y<c.height; y+=25) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(c.width,y); ctx.stroke(); }
+}
+
+const off = document.createElement('canvas');
+off.width = c.width; off.height = c.height;
+const offCtx = off.getContext('2d');
+drawGrid(offCtx);
+
+let x = 50, y = 50, vx = 2.1, vy = 1.5, r = 15;
+let prevRect = null;
+
+function drawBall(ctx, cx, cy) {
+  ctx.fillStyle = '#2f6';
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI*2);
+  ctx.fill();
+}
+
+const times = [];
+function updateStats(dt, ops) {
+  times.push(dt);
+  if (times.length > 60) times.shift();
+  const avg = times.reduce((a,b)=>a+b,0)/times.length;
+  const fps = (1000/avg).toFixed(1);
+  statsEl.textContent = `FPS: ${fps}, 帧时: ${avg.toFixed(1)}ms, 绘制操作: ${ops}`;
+}
+
+function loop() {
+  const t0 = performance.now();
+  requestAnimationFrame(loop);
+  const nx = x + vx, ny = y + vy;
+  if (nx < r || nx > c.width - r) vx *= -1;
+  if (ny < r || ny > c.height - r) vy *= -1;
+  let ops = 0;
+
+  if (mode === 'baseline') {
+    ctx.clearRect(0,0,c.width,c.height);
+    drawGrid(ctx); ops += (c.width/25 + c.height/25) | 0;
+    drawBall(ctx, nx, ny); ops += 1;
+  } else {
+    const curRect = { x: Math.floor(x-r-2), y: Math.floor(y-r-2), w: r*2+4, h: r*2+4 };
+    const nextRect = { x: Math.floor(nx-r-2), y: Math.floor(ny-r-2), w: r*2+4, h: r*2+4 };
+    const x1 = Math.min(curRect.x, nextRect.x);
+    const y1 = Math.min(curRect.y, nextRect.y);
+    const x2 = Math.max(curRect.x+curRect.w, nextRect.x+nextRect.w);
+    const y2 = Math.max(curRect.y+curRect.h, nextRect.y+nextRect.h);
+    const dirty = { x: x1, y: y1, w: x2-x1, h: y2-y1 };
+    ctx.drawImage(off, dirty.x, dirty.y, dirty.w, dirty.h, dirty.x, dirty.y, dirty.w, dirty.h); ops += 1;
+    drawBall(ctx, nx, ny); ops += 1;
+    prevRect = nextRect;
+  }
+
+  x = nx; y = ny;
+  const dt = performance.now() - t0;
+  updateStats(dt, ops);
+}
+
+ctx.drawImage(off, 0, 0);
+drawBall(ctx, x, y);
+loop();
+</script>
+</body>
+</html>

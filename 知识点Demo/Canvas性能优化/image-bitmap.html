@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8" />
+<title>位图预解码与缩放缓存</title>
+<style>canvas{border:1px solid #ddd;margin-right:8px}</style>
+<body>
+<h2>位图预解码与缩放缓存：对比基准与优化并显示指标</h2>
+<div>
+  <span id="statsL">左FPS: -, 帧时: -</span>
+  <span id="statsR" style="margin-left:16px">右FPS: -, 帧时: -</span>
+  
+</div>
+<canvas id="raw" width="300" height="300"></canvas>
+<canvas id="fast" width="300" height="300"></canvas>
+<p>左：每帧缩放大图；右：使用 createImageBitmap 预解码并缓存缩放后位图。</p>
+<script>
+const raw = document.getElementById('raw');
+const fast = document.getElementById('fast');
+const rawCtx = raw.getContext('2d');
+const fastCtx = fast.getContext('2d');
+
+// 使用生成的渐变图像作为“大图”，避免外部资源依赖
+const big = document.createElement('canvas');
+big.width = 1200; big.height = 1200;
+const bigCtx = big.getContext('2d');
+const g = bigCtx.createLinearGradient(0,0,1200,1200);
+g.addColorStop(0,'#f00'); g.addColorStop(0.5,'#0f0'); g.addColorStop(1,'#00f');
+bigCtx.fillStyle = g; bigCtx.fillRect(0,0,big.width,big.height);
+
+let bitmapCache = null;
+
+async function prepareBitmap(){
+  // 预解码为 ImageBitmap，提高传输与绘制效率
+  const bm = await createImageBitmap(big);
+  // 再生成缩放后的缓存版本，避免每帧缩放大图
+  const off = new OffscreenCanvas(300,300);
+  const octx = off.getContext('2d');
+  octx.drawImage(bm,0,0,300,300);
+  bitmapCache = off;
+}
+
+const timesL=[]; const timesR=[];
+function meter(arr, el, dt){ arr.push(dt); if (arr.length>60) arr.shift(); const avg=arr.reduce((a,b)=>a+b,0)/arr.length; const fps=(1000/avg).toFixed(1); el.textContent = `${el.id==='statsL'?'左':'右'}FPS: ${fps}, 帧时: ${avg.toFixed(1)}ms`; }
+
+prepareBitmap().then(()=>{
+  function loop(){
+    requestAnimationFrame(loop);
+    const t0 = performance.now();
+    rawCtx.clearRect(0,0,300,300); rawCtx.drawImage(big,0,0,300,300);
+    const dtL = performance.now()-t0; meter(timesL, document.getElementById('statsL'), dtL);
+    const t1 = performance.now();
+    fastCtx.clearRect(0,0,300,300); fastCtx.drawImage(bitmapCache,0,0);
+    const dtR = performance.now()-t1; meter(timesR, document.getElementById('statsR'), dtR);
+  }
+  loop();
+});
+</script>
+</body>
+</html>

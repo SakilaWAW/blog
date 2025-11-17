@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8" />
+<title>DPI 适配与尺寸控制</title>
+<style>canvas{border:1px solid #ddd;}</style>
+<body>
+<h2>设备像素比适配：对比基准与优化并显示指标</h2>
+<div>
+  <button id="modeBaseline">基准：不适配 dpr</button>
+  <button id="modeOptimized">优化：按 dpr 放大像素并用 setTransform</button>
+  <span id="stats">FPS: -, 帧时: -</span>
+</div>
+<canvas id="c" style="width:600px;height:300px"></canvas>
+<script>
+const c = document.getElementById('c');
+const cssW = 600, cssH = 300;
+let mode = 'optimized';
+document.getElementById('modeBaseline').onclick = ()=> mode='baseline';
+document.getElementById('modeOptimized').onclick = ()=> mode='optimized';
+const ctx = c.getContext('2d');
+
+function setup(){
+  const dpr = mode==='optimized' ? Math.max(1, Math.min(window.devicePixelRatio || 1, 2)) : 1;
+  c.width = cssW * dpr; c.height = cssH * dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.fillStyle = '#fafafa'; ctx.fillRect(0,0,cssW,cssH);
+  ctx.fillStyle = '#333'; ctx.font = '16px system-ui'; ctx.fillText(`devicePixelRatio=${dpr}`, 20, 30);
+  ctx.strokeStyle = '#f66'; ctx.lineWidth = 1.5;
+  for (let x=20;x<cssW-20;x+=12){ ctx.beginPath(); ctx.moveTo(x,60); ctx.lineTo(x,260); ctx.stroke(); }
+}
+
+let t = 0; const times=[]; const stats=document.getElementById('stats');
+function loop(){
+  const t0 = performance.now();
+  requestAnimationFrame(loop);
+  setup();
+  ctx.clearRect(20,80,560,200);
+  for(let i=0;i<30;i++){
+    ctx.fillStyle = `hsl(${(t+i)%360},70%,50%)`;
+    ctx.beginPath(); ctx.arc(40+i*18, 180+Math.sin((t+i)/10)*40, 6, 0, Math.PI*2); ctx.fill();
+  }
+  t+=1;
+  const dt = performance.now()-t0; times.push(dt); if (times.length>60) times.shift(); const avg=times.reduce((a,b)=>a+b,0)/times.length; const fps=(1000/avg).toFixed(1); stats.textContent=`FPS: ${fps}, 帧时: ${avg.toFixed(1)}ms`;
+}
+loop();
+</script>
+</body>
+</html>

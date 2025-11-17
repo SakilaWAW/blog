@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Canvas 性能优化示例集</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin: 20px; }
+    h1 { font-size: 20px; }
+    ul { line-height: 1.8; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>Canvas 性能优化示例集</h1>
+  <p>逐一演示：少画、分层、异步、缓存、按需。</p>
+  <ul>
+    <li><a href="dirty-rect.html">脏矩形重绘：只重绘变化区域</a></li>
+    <li><a href="layers.html">分层渲染：静态与动态分开</a></li>
+    <li><a href="offscreen-worker.html">OffscreenCanvas + Worker：异步重绘</a></li>
+    <li><a href="image-bitmap.html">位图预解码与缩放缓存</a></li>
+    <li><a href="path2d-cache.html">Path2D 缓存复杂路径</a></li>
+    <li><a href="dpi-scale.html">设备像素比适配与尺寸控制</a></li>
+    <li><a href="set-transform.html">一次性矩阵设置 vs 多次变换</a></li>
+  </ul>
+</body>
+</html>

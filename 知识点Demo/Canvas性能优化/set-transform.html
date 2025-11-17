@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8" />
+<title>一次性矩阵设置 vs 多次变换</title>
+<style>canvas{border:1px solid #ddd;}</style>
+<body>
+<h2>一次性设置矩阵：对比多次变换与 setTransform 并显示指标</h2>
+<div>
+  <span id="statsL">左FPS: -, 帧时: -</span>
+  <span id="statsR" style="margin-left:16px">右FPS: -, 帧时: -</span>
+</div>
+<canvas id="c" width="600" height="300"></canvas>
+<script>
+const c = document.getElementById('c');
+const ctx = c.getContext('2d');
+
+function drawGrid(){
+  ctx.strokeStyle = '#eee';
+  for (let x=0; x<c.width; x+=25) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,c.height); ctx.stroke(); }
+  for (let y=0; y<c.height; y+=25) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(c.width,y); ctx.stroke(); }
+}
+
+drawGrid();
+
+let t=0; const timesL=[], timesR=[];
+function loop(){
+  requestAnimationFrame(loop);
+  ctx.clearRect(0,0,c.width,c.height);
+  drawGrid();
+
+  const x = 300, y = 150;
+  const angle = (t%360) * Math.PI/180;
+  const sx = 1 + Math.sin(t/30)*0.2;
+  const sy = 1 + Math.cos(t/25)*0.2;
+
+  const t0 = performance.now();
+  ctx.save();
+  ctx.translate(120, 150);
+  ctx.rotate(angle);
+  ctx.scale(sx, sy);
+  ctx.fillStyle = '#69c';
+  ctx.fillRect(-40,-20,80,40);
+  ctx.restore();
+  const dtL = performance.now()-t0; timesL.push(dtL); if (timesL.length>60) timesL.shift();
+
+  const cos = Math.cos(angle), sin = Math.sin(angle);
+  const a = cos * sx;
+  const b = sin * sx;
+  const c2 = -sin * sy;
+  const d = cos * sy;
+  const t1 = performance.now();
+  ctx.setTransform(a, b, c2, d, x, y);
+  ctx.fillStyle = '#2f6';
+  ctx.fillRect(-40,-20,80,40);
+  ctx.setTransform(1,0,0,1,0,0);
+  const dtR = performance.now()-t1; timesR.push(dtR); if (timesR.length>60) timesR.shift();
+
+  t+=2;
+  const avgL = timesL.reduce((a,b)=>a+b,0)/timesL.length; const avgR = timesR.reduce((a,b)=>a+b,0)/timesR.length;
+  document.getElementById('statsL').textContent = `左FPS: ${(1000/avgL).toFixed(1)}, 帧时: ${avgL.toFixed(1)}ms`;
+  document.getElementById('statsR').textContent = `右FPS: ${(1000/avgR).toFixed(1)}, 帧时: ${avgR.toFixed(1)}ms`;
+}
+loop();
+</script>
+</body>
+</html>
